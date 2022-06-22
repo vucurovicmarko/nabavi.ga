@@ -6,4 +6,4 @@ import "@/app/directives";
 
 import "@/main.css";
 
-app.mount('#app');
+app.mount("#app");

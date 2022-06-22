@@ -1,8 +1,8 @@
 import app from "@/app";
 
 import router from "@/router";
-import store from "@/store";
+import pinia from "@/stores";
 
 app
     .use(router)
-    .use(store)
+    .use(pinia)
