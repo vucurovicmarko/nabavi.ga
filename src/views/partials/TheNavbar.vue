@@ -1,65 +1,68 @@
 <template>
   <div class="bg-white">
-    <!--
-      Mobile menu
+    <TransitionRoot :show="mobileNavOpen">
+      <div class="relative z-40 lg:hidden" role="dialog">
+        <TransitionChild
+            enter="transition-opacity ease-linear duration-300"
+            enter-from="opacity-0"
+            enter-to="opacity-100"
+            leave="transition-opacity ease-linear duration-300"
+            leave-from="opacity-100"
+            leave-to="opacity-0"
+            as="template"
+        >
+          <div class="fixed inset-0 bg-black bg-opacity-25"></div>
+        </TransitionChild>
 
-      Off-canvas menu for mobile, show/hide based on off-canvas menu state.
-    -->
-    <div class="relative z-40 lg:hidden" role="dialog" aria-modal="true">
-      <!--
-        Off-canvas menu backdrop, show/hide based on off-canvas menu state.
+        <div class="fixed inset-0 flex z-40">
 
-        Entering: "transition-opacity ease-linear duration-300"
-          From: "opacity-0"
-          To: "opacity-100"
-        Leaving: "transition-opacity ease-linear duration-300"
-          From: "opacity-100"
-          To: "opacity-0"
-      -->
-      <div class="fixed inset-0 bg-black bg-opacity-25"></div>
+          <TransitionChild
+              enter="transition ease-in-out duration-300 transform"
+              enter-from="-translate-x-full"
+              enter-to="translate-x-0"
+              leave="transition ease-in-out duration-300 transform"
+              leave-from="translate-x-0"
+              leave-to="-translate-x-full"
+              as="template"
+          >
+            <div v-click-outside="closeMobileNav"
+                 class="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto"
+            >
+              <div class="px-4 pt-5 pb-2 flex">
+                <button @click="closeMobileNav"
+                        type="button" class="-m-2 p-2 rounded-md inline-flex items-center justify-center text-gray-400"
+                >
+                  <span class="sr-only">Close menu</span>
+                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                       stroke-width="2"
+                       stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
 
-      <div class="fixed inset-0 flex z-40">
-        <!--
-          Off-canvas menu, show/hide based on off-canvas menu state.
-
-          Entering: "transition ease-in-out duration-300 transform"
-            From: "-translate-x-full"
-            To: "translate-x-0"
-          Leaving: "transition ease-in-out duration-300 transform"
-            From: "translate-x-0"
-            To: "-translate-x-full"
-        -->
-        <div class="relative max-w-xs w-full bg-white shadow-xl pb-12 flex flex-col overflow-y-auto">
-          <div class="px-4 pt-5 pb-2 flex">
-            <button type="button" class="-m-2 p-2 rounded-md inline-flex items-center justify-center text-gray-400">
-              <span class="sr-only">Close menu</span>
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                   stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-              </svg>
-            </button>
-          </div>
-
-          <div class="py-6 px-4 space-y-6">
-            <div class="flow-root">
-              <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Women</a>
+              <div class="py-6 px-4 space-y-6">
+                <div class="flow-root">
+                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Women</a>
+                </div>
+                <div class="flow-root">
+                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Men</a>
+                </div>
+                <div class="flow-root">
+                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Phones</a>
+                </div>
+                <div class="flow-root">
+                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Sports</a>
+                </div>
+                <div class="flow-root">
+                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Jewelry</a>
+                </div>
+              </div>
             </div>
-            <div class="flow-root">
-              <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Men</a>
-            </div>
-            <div class="flow-root">
-              <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Phones</a>
-            </div>
-            <div class="flow-root">
-              <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Sports</a>
-            </div>
-            <div class="flow-root">
-              <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Jewelry</a>
-            </div>
-          </div>
+          </TransitionChild>
         </div>
       </div>
-    </div>
+    </TransitionRoot>
 
     <header class="relative bg-white">
       <div class="bg-gray-800">
@@ -75,7 +78,9 @@
       <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="border-b border-gray-200">
           <div class="h-16 flex items-center">
-            <button type="button" class="bg-white p-2 rounded-md text-gray-400 lg:hidden">
+            <button @click.stop="openMobileNav"
+                    type="button" class="bg-white p-2 rounded-md text-gray-400 lg:hidden"
+            >
               <span class="sr-only">Open menu</span>
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                    stroke="currentColor">
@@ -134,12 +139,30 @@
       </nav>
     </header>
   </div>
-
 </template>
 
 <script>
+import {TransitionRoot, TransitionChild} from '@headlessui/vue'
+
 export default {
-  name: "TheNavbar"
+  name: "TheNavbar",
+  components: {
+    TransitionRoot,
+    TransitionChild,
+  },
+  data() {
+    return {
+      mobileNavOpen: false,
+    }
+  },
+  methods: {
+    openMobileNav() {
+      this.mobileNavOpen = true;
+    },
+    closeMobileNav() {
+      this.mobileNavOpen = false;
+    },
+  }
 }
 </script>
 
