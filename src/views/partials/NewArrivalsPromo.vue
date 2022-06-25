@@ -46,9 +46,11 @@
               </div>
             </div>
 
-            <a href="#" class="inline-block text-center bg-emerald-600 border border-transparent rounded-md py-3 px-8 font-medium text-white hover:bg-emerald-700">
+            <router-link :to="{ name: 'products' }"
+                         class="inline-block text-center bg-emerald-600 border border-transparent rounded-md py-3 px-8 font-medium text-white hover:bg-emerald-700"
+            >
               Shop New Arrivals
-            </a>
+            </router-link>
           </div>
         </div>
       </div>

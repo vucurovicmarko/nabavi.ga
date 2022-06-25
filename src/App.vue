@@ -1,6 +1,8 @@
 <template>
   <TheNavbar></TheNavbar>
-  <RouterView/>
+  <div class="flex-grow flex flex-col">
+    <RouterView/>
+  </div>
   <TheFooter></TheFooter>
 </template>
 

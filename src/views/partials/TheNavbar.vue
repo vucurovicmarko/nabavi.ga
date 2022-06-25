@@ -90,10 +90,10 @@
 
             <!-- Logo -->
             <div class="ml-4 flex lg:ml-0">
-              <a href="#">
+              <router-link :to="{ name: 'storefront' }">
                 <span class="sr-only">nabavi.ga</span>
                 <VLogo></VLogo>
-              </a>
+              </router-link>
             </div>
 
             <div class="hidden lg:ml-8 lg:block lg:self-stretch">
