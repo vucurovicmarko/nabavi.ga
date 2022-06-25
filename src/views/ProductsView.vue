@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div>
     <TransitionRoot :show="mobileFiltersOpen">
       <div class="relative z-40 lg:hidden">
         <TransitionChild
@@ -93,61 +93,63 @@
     </TransitionRoot>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="relative z-10 flex items-baseline justify-between pt-24 pb-6 border-b border-gray-200">
-        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
-          Products
-        </h1>
+      <div class="pt-12 lg:pt-16">
+        <div class="relative z-10 flex items-baseline justify-between pb-6 border-b border-gray-200">
+          <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
+            Products
+          </h1>
 
-        <div class="flex items-center">
-          <VDropdown ref="sortDropdown">
-            <template #trigger>
-              <button type="button"
-                      class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
-              >
-                Sort
-                <svg class="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
-                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"/>
-                </svg>
-              </button>
-            </template>
+          <div class="flex items-center">
+            <VDropdown ref="sortDropdown">
+              <template #trigger>
+                <button type="button"
+                        class="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900"
+                >
+                  Sort
+                  <svg class="flex-shrink-0 -mr-1 ml-1 h-5 w-5 text-gray-400 group-hover:text-gray-500"
+                       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"/>
+                  </svg>
+                </button>
+              </template>
 
-            <div class="py-1">
-              <button v-for="option in sortOptions"
-                      class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
-                      :class="filters.sort === option ? 'font-medium text-gray-900' : 'text-gray-500'"
-                      @click="handleSortOptionClick(option)"
-                      :key="option"
-              >
-                {{ option }}
-              </button>
-            </div>
-          </VDropdown>
+              <div class="py-1">
+                <button v-for="option in sortOptions"
+                        class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
+                        :class="filters.sort === option ? 'font-medium text-gray-900' : 'text-gray-500'"
+                        @click="handleSortOptionClick(option)"
+                        :key="option"
+                >
+                  {{ option }}
+                </button>
+              </div>
+            </VDropdown>
 
-          <button type="button" class="p-2 -m-2 ml-5 sm:ml-7 text-gray-400 hover:text-gray-500">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path
-                  d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
-            </svg>
-          </button>
-          <button @click.stop="openMobileFilters"
-                  type="button" class="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
-          >
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd"
-                    d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                    clip-rule="evenodd"/>
-            </svg>
-          </button>
+            <button type="button" class="p-2 -m-2 ml-5 sm:ml-7 text-gray-400 hover:text-gray-500">
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                    d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+              </svg>
+            </button>
+            <button @click.stop="openMobileFilters"
+                    type="button" class="p-2 -m-2 ml-4 sm:ml-6 text-gray-400 hover:text-gray-500 lg:hidden"
+            >
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                      d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                      clip-rule="evenodd"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
-      <section class="pt-6 pb-24">
+      <section class="pb-16 lg:pb-24">
         <h2 class="sr-only">Products</h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
+        <div class="pt-6 grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
           <!-- Filters -->
           <form class="hidden lg:block">
             <div>
@@ -200,7 +202,6 @@
     </main>
   </div>
 </template>
-
 <script>
 import {TransitionRoot, TransitionChild} from '@headlessui/vue'
 

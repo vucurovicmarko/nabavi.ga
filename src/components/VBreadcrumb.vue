@@ -1,6 +1,6 @@
 <template>
   <nav aria-label="Breadcrumb">
-    <ol role="list" class="max-w-2xl mx-auto px-4 flex items-center space-x-2 sm:px-6 lg:max-w-7xl lg:px-8">
+    <ol role="list" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center space-x-2">
       <li v-for="(route, index) in breadcrumbs"
           :key="index"
       >
