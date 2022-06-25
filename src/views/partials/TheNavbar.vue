@@ -88,19 +88,19 @@
               <a href="#">
                 <span class="sr-only">nabavi.ga</span>
                 <div class="flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24"
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24"
                        stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                   </svg>
-                  <span class="text-xl font-medium text-gray-900 tracking-tighter	ml-1">nabavi.ga</span>
+                  <span class="text-xl font-semibold text-gray-900 tracking-tighter	ml-1">nabavi.ga</span>
                 </div>
               </a>
             </div>
 
             <div class="hidden lg:ml-8 lg:block lg:self-stretch">
               <div class="h-full flex space-x-8">
-                <!-- Item active: "border-orange-600 text-orange-600", Item inactive: "border-transparent text-gray-700 hover:text-gray-800" -->
+                <!-- Item active: "border-emerald-600 text-emerald-600", Item inactive: "border-transparent text-gray-700 hover:text-gray-800" -->
                 <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Women</a>
                 <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Men</a>
                 <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Phones</a>

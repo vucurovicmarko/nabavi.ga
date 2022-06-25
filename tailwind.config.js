@@ -1,11 +1,16 @@
-/** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
     content: [
         "./public/index.html",
         "./src/**/*.{vue,js}",
     ],
     theme: {
-        extend: {},
+        extend: {
+            fontFamily: {
+                'sans': ['Inter', ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
     plugins: [
         require('@tailwindcss/aspect-ratio'),
