@@ -81,7 +81,6 @@
             <button @click.stop="openMobileNav"
                     type="button" class="bg-white p-2 rounded-md text-gray-400 lg:hidden"
             >
-              <span class="sr-only">Open menu</span>
               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                    stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
@@ -91,7 +90,6 @@
             <!-- Logo -->
             <div class="ml-4 flex lg:ml-0">
               <router-link :to="{ name: 'storefront' }">
-                <span class="sr-only">nabavi.ga</span>
                 <VLogo></VLogo>
               </router-link>
             </div>
@@ -111,7 +109,6 @@
               <!-- Search -->
               <div class="flex">
                 <a href="#" class="p-2 text-gray-400 hover:text-gray-500">
-                  <span class="sr-only">Search</span>
                   <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                        stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -130,7 +127,6 @@
                           d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                   </svg>
                   <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                  <span class="sr-only">items in cart, view bag</span>
                 </a>
               </div>
             </div>

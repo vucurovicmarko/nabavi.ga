@@ -1,6 +1,6 @@
 <template>
   <VExpand>
-    <template #trigger>
+    <template #trigger="{open}">
       <h3 class="-mx-2 -my-3 flow-root">
         <button type="button"
                 class="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
