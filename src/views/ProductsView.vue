@@ -195,7 +195,16 @@
 
             <!-- Product grid -->
             <div class="lg:col-span-3">
-              Products
+              <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+                <ProductCard></ProductCard>
+              </div>
             </div>
           </div>
         </section>
@@ -209,6 +218,7 @@ import {TransitionRoot, TransitionChild} from '@headlessui/vue'
 
 import ResponsiveFilterExpand from "@/components/ResponsiveFilterExpand";
 import FilterExpand from "@/components/FilterExpand";
+import ProductCard from "@/components/ProductCard";
 
 export default {
   name: "ProductsView",
@@ -217,6 +227,7 @@ export default {
     TransitionChild,
     ResponsiveFilterExpand,
     FilterExpand,
+    ProductCard,
   },
   data() {
     return {
