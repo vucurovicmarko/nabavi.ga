@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <main>
     <TransitionRoot :show="mobileFiltersOpen">
       <div class="relative z-40 lg:hidden">
         <TransitionChild
@@ -92,7 +92,7 @@
       </div>
     </TransitionRoot>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="pt-12 lg:pt-16">
         <div class="relative z-10 flex items-baseline justify-between pb-6 border-b border-gray-200">
           <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
@@ -199,8 +199,8 @@
           </div>
         </div>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 <script>
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';

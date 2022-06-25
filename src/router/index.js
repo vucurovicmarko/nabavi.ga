@@ -20,6 +20,12 @@ const routes = [
         meta: {title: 'Product'},
     },
     {
+        path: '/checkout',
+        name: 'checkout',
+        component: () => import(/* webpackChunkName: "checkout" */ '@/views/CheckoutView.vue'),
+        meta: {title: 'Checkout'},
+    },
+    {
         path: '/:pathMatch(.*)*',
         name: 'not-found',
         component: () => import(/* webpackChunkName: 'notFound' */ '@/views/404View'),

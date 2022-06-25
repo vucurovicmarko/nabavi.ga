@@ -4,7 +4,7 @@
       <VBreadcrumb :breadcrumbs="breadcrumbs"></VBreadcrumb>
     </div>
 
-    <div class="max-w-2xl mx-auto lg:max-w-7xl">
+    <section class="max-w-2xl mx-auto lg:max-w-7xl">
       <div class="mt-6 pb-16 lg:pb-24">
         <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 lg:px-8">
           <div class="sm:px-6 lg:px-0">
@@ -36,7 +36,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </section>
   </main>
 </template>
 
