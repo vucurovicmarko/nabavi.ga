@@ -1,15 +1,37 @@
 import {createRouter, createWebHistory} from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
+import StorefrontView from '@/views/StorefrontView.vue';
 
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: HomeView
+        name: 'storefront',
+        component: StorefrontView
     },
+    {
+        path: '/products',
+        name: 'products',
+        component: () => import(/* webpackChunkName: "products" */ '@/views/ProductsView.vue'),
+        meta: {title: 'Products'},
+    },
+    {
+        path: '/products/:product',
+        name: 'product',
+        component: () => import(/* webpackChunkName: "product" */ '@/views/ProductView.vue'),
+        meta: {title: 'Product'},
+    },
+    {
+        path: '/cart',
+        name: 'cart',
+        component: () => import(/* webpackChunkName: "cart" */ '@/views/CartView.vue'),
+        meta: {title: 'Cart'},
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'not-found',
+        component: () => import(/* webpackChunkName: 'notFound' */ '@/views/404View'),
+        meta: {title: 'Not Found'},
+    }
 ];
-
-// component: () => import(/* webpackChunkName: "about" */ '@/views/SomeComponent.vue')
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),

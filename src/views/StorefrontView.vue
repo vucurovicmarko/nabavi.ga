@@ -10,7 +10,7 @@ import CategoriesPreview from "@/views/partials/CategoriesPreview";
 import NewArrivalsPromo from "@/views/partials/NewArrivalsPromo";
 
 export default {
-  name: 'HomeView',
+  name: 'StorefrontView',
   components: {
     NewArrivalsPromo,
     CategoriesPreview,
