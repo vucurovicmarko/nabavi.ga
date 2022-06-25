@@ -119,7 +119,7 @@
 
               <!-- Cart -->
               <div class="ml-4 flow-root lg:ml-6">
-                <a href="#" class="group -m-2 p-2 flex items-center">
+                <button @click.stop="$refs['cart'].openCart" class="group -m-2 p-2 flex items-center">
                   <svg class="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                        stroke="currentColor">
@@ -127,24 +127,30 @@
                           d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                   </svg>
                   <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                </a>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </nav>
     </header>
+
+    <Teleport to="#modals">
+      <TheCart ref="cart"></TheCart>
+    </Teleport>
   </div>
 </template>
 
 <script>
-import {TransitionRoot, TransitionChild} from '@headlessui/vue'
+import {TransitionRoot, TransitionChild} from '@headlessui/vue';
+import TheCart from "@/views/partials/TheCart";
 
 export default {
   name: "TheNavbar",
   components: {
     TransitionRoot,
     TransitionChild,
+    TheCart,
   },
   data() {
     return {
@@ -158,7 +164,7 @@ export default {
     closeMobileNav() {
       this.mobileNavOpen = false;
     },
-  }
+  },
 }
 </script>
 

@@ -203,7 +203,7 @@
   </div>
 </template>
 <script>
-import {TransitionRoot, TransitionChild} from '@headlessui/vue'
+import {TransitionRoot, TransitionChild} from '@headlessui/vue';
 
 import ResponsiveFilterExpand from "@/components/ResponsiveFilterExpand";
 import FilterExpand from "@/components/FilterExpand";
