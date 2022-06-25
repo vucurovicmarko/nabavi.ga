@@ -1,6 +1,6 @@
 <template>
   <main class="bg-white pt-6">
-    <VBreadcrumb></VBreadcrumb>
+    <VBreadcrumb :breadcrumbs="breadcrumbs"></VBreadcrumb>
 
     <div class="mt-6 max-w-2xl mx-auto lg:max-w-7xl">
       <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 lg:px-8">
@@ -43,6 +43,24 @@ export default {
   name: "ProductView",
   components: {
     VBreadcrumb,
+  },
+  data() {
+    return {
+      breadcrumbs: [
+        {
+          label: 'Products',
+          to: {name: 'products'},
+        },
+        {
+          label: 'Men',
+          to: {name: 'products'},
+        },
+        {
+          label: 'Basic Tee 6-Pack',
+          to: {name: 'product', params: {product: '1'}},
+        }
+      ]
+    }
   }
 }
 </script>
