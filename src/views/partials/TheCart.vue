@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot :show="cartOpen">
+  <TransitionRoot :show="isOpen">
     <div class="relative z-10">
       <TransitionChild
           enter="ease-in-out duration-500"
@@ -25,7 +25,7 @@
                 leave-to="translate-x-full"
                 as="template"
             >
-              <div v-click-outside="closeCart" class="pointer-events-auto w-screen max-w-md">
+              <div v-click-outside="close" class="pointer-events-auto w-screen max-w-md">
                 <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
                   <div class="flex-1 overflow-y-auto py-6 px-4 sm:px-6">
                     <div class="flex items-start justify-between">
@@ -33,7 +33,7 @@
                         Shopping cart
                       </h2>
                       <div class="ml-3 flex h-7 items-center">
-                        <button @click="closeCart"
+                        <button @click="close"
                                 type="button" class="-m-2 p-2 text-gray-400 hover:text-gray-500"
                         >
                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -94,7 +94,7 @@
                       <p>
                         or
                         <router-link :to="{ name: 'products'}"
-                                     @click="closeCart"
+                                     @click="close"
                                      class="font-medium text-emerald-600 hover:text-emerald-500"
                         >
                           Continue Shopping
@@ -123,15 +123,15 @@ export default {
   },
   data() {
     return {
-      cartOpen: false,
+      isOpen: false,
     }
   },
   methods: {
-    openCart() {
-      this.cartOpen = true;
+    open() {
+      this.isOpen = true;
     },
-    closeCart() {
-      this.cartOpen = false;
+    close() {
+      this.isOpen = false;
     },
   },
 }

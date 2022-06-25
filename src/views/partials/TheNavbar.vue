@@ -108,18 +108,18 @@
             <div class="ml-auto flex items-center">
               <!-- Search -->
               <div class="flex">
-                <a href="#" class="p-2 text-gray-400 hover:text-gray-500">
+                <button @click.stop="$refs['search'].open" class="p-2 text-gray-400 hover:text-gray-500">
                   <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                        stroke-width="2" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                   </svg>
-                </a>
+                </button>
               </div>
 
               <!-- Cart -->
               <div class="ml-4 flow-root lg:ml-6">
-                <button @click.stop="$refs['cart'].openCart" class="group -m-2 p-2 flex items-center">
+                <button @click.stop="$refs['cart'].open" class="group -m-2 p-2 flex items-center">
                   <svg class="flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                        stroke="currentColor">
@@ -138,11 +138,17 @@
     <Teleport to="#modals">
       <TheCart ref="cart"></TheCart>
     </Teleport>
+
+    <Teleport to="#modals">
+      <TheSearch ref="search"></TheSearch>
+    </Teleport>
   </div>
 </template>
 
 <script>
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';
+
+import TheSearch from "@/views/partials/TheSearch";
 import TheCart from "@/views/partials/TheCart";
 
 export default {
@@ -150,6 +156,7 @@ export default {
   components: {
     TransitionRoot,
     TransitionChild,
+    TheSearch,
     TheCart,
   },
   data() {
