@@ -45,29 +45,7 @@
                 <!-- Filters -->
                 <form class="mt-4 border-t border-gray-200">
                   <div class="px-4 py-6">
-                    <VExpand>
-                      <template #trigger="{open}">
-                        <h3 class="-mx-2 -my-3 flow-root">
-                          <button type="button"
-                                  class="px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500">
-                            <span class="font-medium text-gray-900"> Category </span>
-                            <div class="ml-6 flex items-center">
-                              <svg v-if="!open" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                   fill="currentColor">
-                                <path fill-rule="evenodd"
-                                      d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                      clip-rule="evenodd"/>
-                              </svg>
-                              <svg v-else class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                   fill="currentColor">
-                                <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
-                                      clip-rule="evenodd"/>
-                              </svg>
-                            </div>
-                          </button>
-                        </h3>
-                      </template>
-
+                    <ResponsiveFilterExpand label="Categories">
                       <div class="pt-6">
                         <div class="space-y-6">
                           <div class="flex items-center">
@@ -107,7 +85,7 @@
                           </div>
                         </div>
                       </div>
-                    </VExpand>
+                    </ResponsiveFilterExpand>
                   </div>
                 </form>
               </div>
@@ -177,30 +155,7 @@
             <!-- Filters -->
             <form class="hidden lg:block">
               <div>
-                <VExpand :initial-open="true">
-                  <template #trigger="{open}">
-                    <h3 class="-my-3 flow-root">
-                      <button type="button"
-                              class="py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500"
-                      >
-                        <span class="font-medium text-gray-900"> Category </span>
-                        <div class="ml-6 flex items-center">
-                          <svg v-if="!open" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                               fill="currentColor">
-                            <path fill-rule="evenodd"
-                                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                  clip-rule="evenodd"/>
-                          </svg>
-                          <svg v-else class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                               fill="currentColor">
-                            <path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z"
-                                  clip-rule="evenodd"/>
-                          </svg>
-                        </div>
-                      </button>
-                    </h3>
-                  </template>
-
+                <FilterExpand label="Categories" :initial-open="true">
                   <div class="pt-6">
                     <div class="space-y-4">
                       <div class="flex items-center">
@@ -234,7 +189,7 @@
                       </div>
                     </div>
                   </div>
-                </VExpand>
+                </FilterExpand>
               </div>
             </form>
 
@@ -251,14 +206,17 @@
 
 <script>
 import {TransitionRoot, TransitionChild} from '@headlessui/vue'
-import VExpand from "@/components/VExpand";
+
+import ResponsiveFilterExpand from "@/components/ResponsiveFilterExpand";
+import FilterExpand from "@/components/FilterExpand";
 
 export default {
   name: "ProductsView",
   components: {
     TransitionRoot,
     TransitionChild,
-    VExpand,
+    ResponsiveFilterExpand,
+    FilterExpand,
   },
   data() {
     return {

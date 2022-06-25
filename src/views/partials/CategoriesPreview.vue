@@ -7,11 +7,11 @@
         </h2>
 
         <div class="mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-14">
-          <CategoryPreview></CategoryPreview>
-          <CategoryPreview></CategoryPreview>
-          <CategoryPreview></CategoryPreview>
-          <CategoryPreview></CategoryPreview>
-          <CategoryPreview></CategoryPreview>
+          <CategoryCard></CategoryCard>
+          <CategoryCard></CategoryCard>
+          <CategoryCard></CategoryCard>
+          <CategoryCard></CategoryCard>
+          <CategoryCard></CategoryCard>
         </div>
       </div>
     </div>
@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import CategoryPreview from "@/components/CategoryPreview";
+import CategoryCard from "@/components/CategoryCard";
 
 export default {
   name: "CategoriesPreview",
   components: {
-    CategoryPreview,
+    CategoryCard,
   }
 }
 </script>

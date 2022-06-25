@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: "CategoryPreview"
+  name: "CategoryCard"
 }
 </script>
 
