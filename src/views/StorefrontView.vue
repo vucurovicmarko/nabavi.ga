@@ -78,11 +78,11 @@
           </h2>
 
           <div class="mt-6 space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:gap-y-14">
-            <CategoryCard></CategoryCard>
-            <CategoryCard></CategoryCard>
-            <CategoryCard></CategoryCard>
-            <CategoryCard></CategoryCard>
-            <CategoryCard></CategoryCard>
+            <CategoryCard
+                v-for="category in categories"
+                :key="category.slug"
+                :category="category"
+            ></CategoryCard>
           </div>
         </div>
       </div>
@@ -91,12 +91,18 @@
 </template>
 
 <script>
+import {mapState} from "pinia";
+import {useCategoryStore} from "@/stores/category";
+
 import CategoryCard from "@/components/CategoryCard";
 
 export default {
   name: 'StorefrontView',
   components: {
     CategoryCard,
-  }
+  },
+  computed: {
+    ...mapState(useCategoryStore, ['categories']),
+  },
 }
 </script>

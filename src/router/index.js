@@ -8,6 +8,12 @@ const routes = [
         component: StorefrontView
     },
     {
+        path: '/:category',
+        name: 'category',
+        component: () => import(/* webpackChunkName: "category" */ '@/views/CategoryView.vue'),
+        meta: {title: 'Category'}, //ToDo dynamic title
+    },
+    {
         path: '/products',
         name: 'products',
         component: () => import(/* webpackChunkName: "products" */ '@/views/ProductsView.vue'),
@@ -17,7 +23,7 @@ const routes = [
         path: '/products/:product',
         name: 'product',
         component: () => import(/* webpackChunkName: "product" */ '@/views/ProductView.vue'),
-        meta: {title: 'Product'},
+        meta: {title: 'Product'}, //ToDo dynamic title
     },
     {
         path: '/checkout',

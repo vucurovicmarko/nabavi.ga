@@ -2,24 +2,16 @@
   <footer class="bg-white">
     <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
       <nav class="-mx-5 -my-2 flex flex-wrap justify-center">
-        <div class="px-5 py-2">
-          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Women</a>
-        </div>
-
-        <div class="px-5 py-2">
-          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Men</a>
-        </div>
-
-        <div class="px-5 py-2">
-          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Phones</a>
-        </div>
-
-        <div class="px-5 py-2">
-          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Sports</a>
-        </div>
-
-        <div class="px-5 py-2">
-          <a href="#" class="text-base text-gray-500 hover:text-gray-900">Jewelry</a>
+        <div v-for="category in categories"
+             :key="category.slug"
+             class="px-5 py-2"
+        >
+          <router-link
+              :to="{name: 'category', params: {category: category.slug}}"
+              class="text-base text-gray-500 hover:text-gray-900"
+          >
+            {{ category.name }}
+          </router-link>
         </div>
       </nav>
 
@@ -36,7 +28,8 @@
           </div>
         </a>
 
-        <a href="https://github.com/markofrontend/api.nabavi.ga" class="text-gray-400 hover:text-gray-500" target="_blank">
+        <a href="https://github.com/markofrontend/api.nabavi.ga" class="text-gray-400 hover:text-gray-500"
+           target="_blank">
           <span class="sr-only">GitHub</span>
           <div class="flex items-center">
             <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -61,8 +54,14 @@
 </template>
 
 <script>
+import {mapState} from "pinia";
+import {useCategoryStore} from "@/stores/category";
+
 export default {
-  name: "TheFooter"
+  name: "TheFooter",
+  computed: {
+    ...mapState(useCategoryStore, ['categories']),
+  },
 }
 </script>
 

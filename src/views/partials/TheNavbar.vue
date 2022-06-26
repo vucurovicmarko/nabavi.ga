@@ -97,11 +97,13 @@
             <div class="hidden lg:ml-8 lg:block lg:self-stretch">
               <div class="h-full flex space-x-8">
                 <!-- Item active: "border-emerald-600 text-emerald-600", Item inactive: "border-transparent text-gray-700 hover:text-gray-800" -->
-                <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Women</a>
-                <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Men</a>
-                <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Phones</a>
-                <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Sports</a>
-                <a href="#" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">Jewelry</a>
+                <router-link v-for="category in categories"
+                             :key="category.slug"
+                             :to="{name: 'category', params: {category: category.slug}}"
+                             class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                >
+                  {{ category.name }}
+                </router-link>
               </div>
             </div>
 
@@ -146,6 +148,9 @@
 </template>
 
 <script>
+import {mapState} from "pinia";
+import {useCategoryStore} from "@/stores/category";
+
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';
 
 import TheSearch from "@/views/partials/TheSearch";
@@ -163,6 +168,9 @@ export default {
     return {
       mobileNavOpen: false,
     }
+  },
+  computed: {
+    ...mapState(useCategoryStore, ['categories']),
   },
   methods: {
     openMobileNav() {
