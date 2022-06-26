@@ -1,6 +1,6 @@
 import {defineStore} from 'pinia';
 
-const LOCAL_STORAGE_KEY = 'cart';
+const LOCAL_STORAGE_CART_KEY = 'cart';
 
 export const useCartStore = defineStore("cart", {
     state: () => ({
@@ -8,25 +8,23 @@ export const useCartStore = defineStore("cart", {
     }),
     getters: {
         hasProducts: (state) => state.products.length > 0,
-        productsInCart: (state) => state.products.length,
+        productsCount: (state) => state.products.length,
         subtotal() {
             return this.products.reduce((memo, {price, quantity}) => {
                 return memo + parseInt(price) * quantity;
             }, 0);
-        }
+        },
     },
     actions: {
         initializeCart() {
-            const cart = localStorage.getItem(LOCAL_STORAGE_KEY);
+            const products = localStorage.getItem(LOCAL_STORAGE_CART_KEY);
 
-            if (cart) {
-                this.products = JSON.parse(cart);
-            } else {
-                localStorage.setItem(LOCAL_STORAGE_KEY, this.products);
+            if (products) {
+                this.products = JSON.parse(products);
             }
         },
         addProduct(product) {
-            const cartProduct = this.products.find(({id}) => product.id === id);
+            const cartProduct = this.products.find(({id}) => id === product.id);
 
             if (cartProduct) {
                 cartProduct.quantity++;
@@ -34,7 +32,19 @@ export const useCartStore = defineStore("cart", {
                 this.products.push({...product, quantity: 1});
             }
 
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(this.products));
-        }
+            this.saveCartToLocalStorage();
+        },
+        removeProduct(productId) {
+            const cartProductIndex = this.products.findIndex(({id}) => id === productId);
+
+            if (cartProductIndex !== -1) {
+                this.products.splice(cartProductIndex, 1);
+            }
+
+            this.saveCartToLocalStorage();
+        },
+        saveCartToLocalStorage() {
+            localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(this.products));
+        },
     },
 });

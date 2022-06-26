@@ -82,7 +82,12 @@
                                 <p class="text-gray-500">Qty {{ product.quantity }}</p>
 
                                 <div class="flex">
-                                  <button type="button" class="font-medium text-emerald-600 hover:text-emerald-500">Remove</button>
+                                  <button @click="removeProduct(product.id)"
+                                          type="button"
+                                          class="font-medium text-emerald-600 hover:text-emerald-500"
+                                  >
+                                    Remove
+                                  </button>
                                 </div>
                               </div>
                             </div>
@@ -148,7 +153,7 @@ export default {
     ...mapState(useCartStore, ['products', 'hasProducts', 'subtotal']),
   },
   methods: {
-    ...mapActions(useCartStore, ['addProduct']),
+    ...mapActions(useCartStore, ['addProduct', 'removeProduct']),
     open() {
       this.isOpen = true;
     },
