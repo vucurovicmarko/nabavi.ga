@@ -11,6 +11,7 @@
 <script>
 import {mapActions} from "pinia";
 import {useCategoryStore} from "@/stores/category";
+import {useCartStore} from "@/stores/cart";
 
 import TheNavbar from "@/views/partials/TheNavbar";
 import TheFooter from "@/views/partials/TheFooter";
@@ -22,9 +23,11 @@ export default {
   },
   created() {
     this.fetchCategories();
+    this.initializeCart();
   },
   methods: {
     ...mapActions(useCategoryStore, ['fetchCategories']),
+    ...mapActions(useCartStore, ['initializeCart']),
   },
 }
 </script>

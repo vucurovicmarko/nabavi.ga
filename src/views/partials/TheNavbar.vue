@@ -131,7 +131,9 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
                   </svg>
-                  <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
+                  <span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                    {{ productsInCart }}
+                  </span>
                 </button>
               </div>
             </div>
@@ -153,6 +155,7 @@
 <script>
 import {mapState} from "pinia";
 import {useCategoryStore} from "@/stores/category";
+import {useCartStore} from "@/stores/cart";
 
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';
 
@@ -174,6 +177,7 @@ export default {
   },
   computed: {
     ...mapState(useCategoryStore, ['categories']),
+    ...mapState(useCartStore, ['productsInCart']),
   },
   methods: {
     openMobileNav() {

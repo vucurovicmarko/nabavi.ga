@@ -202,7 +202,7 @@ export default {
   data() {
     return {
       filters: {
-        sort: 'Newest',
+        sort: null,
         categories: [],
       },
       sortOptions: ['Newest', 'Price: Low to High', 'Price: High to Low'],

@@ -47,35 +47,46 @@
                     <div class="mt-8">
                       <div class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
-                          <li class="flex py-6">
+                          <li v-for="product in products"
+                              :key="product.slug"
+                              class="flex py-6"
+                          >
                             <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                               <img
-                                  src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg"
-                                  alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
-                                  class="h-full w-full object-cover object-center">
+                                  :src="product.get_thumbnail || product.get_image"
+                                  :alt="product.name"
+                                  class="h-full w-full object-cover object-center"
+                              >
                             </div>
 
                             <div class="ml-4 flex flex-1 flex-col">
                               <div>
                                 <div class="flex justify-between text-base font-medium text-gray-900">
                                   <h3>
-                                    <a href="#"> Throwback Hip Bag </a>
+                                    <router-link
+                                        :to="product.get_absolute_url"
+                                        @click="close"
+                                    >
+                                      {{ product.name }}
+                                    </router-link>
                                   </h3>
-                                  <p class="ml-4">$90.00</p>
+                                  <p class="ml-4 whitespace-nowrap">
+                                    {{ product.price }} €
+                                  </p>
                                 </div>
-                                <p class="mt-1 text-sm text-gray-500">Salmon</p>
+                                <p class="mt-1 text-sm text-gray-500">
+                                  {{ product.get_category }}
+                                </p>
                               </div>
-                              <div class="flex flex-1 items-end justify-end text-sm">
+                              <div class="flex flex-1 items-end justify-between text-sm">
+                                <p class="text-gray-500">Qty {{ product.quantity }}</p>
+
                                 <div class="flex">
-                                  <button type="button" class="font-medium text-emerald-600 hover:text-emerald-500">
-                                    Remove
-                                  </button>
+                                  <button type="button" class="font-medium text-emerald-600 hover:text-emerald-500">Remove</button>
                                 </div>
                               </div>
                             </div>
                           </li>
-
-                          <!-- More products... -->
                         </ul>
                       </div>
                     </div>
@@ -84,7 +95,7 @@
                   <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
                     <div class="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
-                      <p>$262.00</p>
+                      <p>{{ subtotal }} €</p>
                     </div>
                     <div class="mt-6">
                       <router-link :to="{name: 'checkout'}"
@@ -117,6 +128,9 @@
 </template>
 
 <script>
+import {mapState, mapActions} from "pinia";
+import {useCartStore} from "@/stores/cart";
+
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';
 
 export default {
@@ -130,7 +144,11 @@ export default {
       isOpen: false,
     }
   },
+  computed: {
+    ...mapState(useCartStore, ['products', 'hasProducts', 'subtotal']),
+  },
   methods: {
+    ...mapActions(useCartStore, ['addProduct']),
     open() {
       this.isOpen = true;
     },

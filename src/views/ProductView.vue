@@ -83,6 +83,14 @@ export default {
       ]
     }
   },
+  watch: {
+    '$route.params': {
+      handler(newParams) {
+        if (newParams.category_slug && newParams.product_slug) this.fetchProduct();
+      },
+      deep: true
+    }
+  },
   created() {
     this.fetchProduct();
   },
