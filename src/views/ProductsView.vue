@@ -157,15 +157,20 @@
 
           <!-- Product grid -->
           <div class="lg:col-span-3">
-            <div v-if="hasProducts"
-                 class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
-            >
-              <ProductCard v-for="product in products"
-                           :key="product.id"
-                           :product="product"
-              ></ProductCard>
-            </div>
-            <EmptyState v-else label="No products"></EmptyState>
+
+            <VLoader v-if="loading" label="Loading products..."></VLoader>
+
+            <template v-else>
+              <div v-if="hasProducts"
+                   class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
+              >
+                <ProductCard v-for="product in products"
+                             :key="product.id"
+                             :product="product"
+                ></ProductCard>
+              </div>
+              <EmptyState v-else label="No products"></EmptyState>
+            </template>
           </div>
         </div>
       </section>

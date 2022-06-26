@@ -5,10 +5,9 @@ export const useProductStore = defineStore("product", {
     state: () => ({
         products: [],
         loading: false,
-        error: null,
     }),
     getters: {
-        hasProducts: (state) => state.products.length,
+        hasProducts: (state) => state.products.length > 0,
     },
     actions: {
         fetchProducts() {
@@ -16,10 +15,7 @@ export const useProductStore = defineStore("product", {
             this.loading = true;
 
             ProductService.query()
-                .then(
-                    ({data}) => this.products = data,
-                    error => this.error = error
-                )
+                .then(({data}) => this.products = data)
                 .finally(() => this.loading = false);
         },
     }
