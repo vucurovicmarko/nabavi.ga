@@ -34,13 +34,11 @@
                 {{ product.description }}
               </p>
 
-              <form class="mt-10">
-                <button type="submit"
-                        class="mt-10 w-full bg-emerald-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-                >
-                  Add to bag
-                </button>
-              </form>
+              <button @click="addProduct(product)"
+                      class="mt-10 w-full bg-emerald-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+              >
+                Add to bag
+              </button>
             </div>
           </div>
         </div>
@@ -50,6 +48,9 @@
 </template>
 
 <script>
+import {mapActions} from "pinia";
+import {useCartStore} from "@/stores/cart";
+
 import ProductService from "@/services/product.service";
 
 import VBreadcrumb from "@/components/VBreadcrumb";
@@ -95,6 +96,7 @@ export default {
     this.fetchProduct();
   },
   methods: {
+    ...mapActions(useCartStore, ['addProduct']),
     fetchProduct() {
       this.loading = true;
 
