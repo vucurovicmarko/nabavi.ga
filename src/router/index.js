@@ -8,7 +8,7 @@ const routes = [
         component: StorefrontView
     },
     {
-        path: '/:category',
+        path: '/category/:category',
         name: 'category',
         component: () => import(/* webpackChunkName: "category" */ '@/views/CategoryView.vue'),
         meta: {title: 'Category'}, //ToDo dynamic title
