@@ -46,40 +46,19 @@
                   <ResponsiveFilterExpand label="Categories">
                     <div class="pt-6">
                       <div class="space-y-6">
-                        <div class="flex items-center">
-                          <input id="filter-mobile-category-0" name="category[]" value="new-arrivals" type="checkbox"
-                                 class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                          <label for="filter-mobile-category-0" class="ml-3 min-w-0 flex-1 text-gray-500"> New
-                            Arrivals </label>
-                        </div>
-
-                        <div class="flex items-center">
-                          <input id="filter-mobile-category-1" name="category[]" value="sale" type="checkbox"
-                                 class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                          <label for="filter-mobile-category-1" class="ml-3 min-w-0 flex-1 text-gray-500">
-                            Sale </label>
-                        </div>
-
-                        <div class="flex items-center">
-                          <input id="filter-mobile-category-2" name="category[]" value="travel" type="checkbox"
-                                 checked
-                                 class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                          <label for="filter-mobile-category-2" class="ml-3 min-w-0 flex-1 text-gray-500">
-                            Travel </label>
-                        </div>
-
-                        <div class="flex items-center">
-                          <input id="filter-mobile-category-3" name="category[]" value="organization" type="checkbox"
-                                 class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                          <label for="filter-mobile-category-3" class="ml-3 min-w-0 flex-1 text-gray-500">
-                            Organization </label>
-                        </div>
-
-                        <div class="flex items-center">
-                          <input id="filter-mobile-category-4" name="category[]" value="accessories" type="checkbox"
-                                 class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                          <label for="filter-mobile-category-4" class="ml-3 min-w-0 flex-1 text-gray-500">
-                            Accessories </label>
+                        <div v-for="category in categories"
+                             :key="category.slug"
+                             class="flex items-center"
+                        >
+                          <input :id="`filter-mobile-${category.slug}`"
+                                 v-model="filters.categories"
+                                 :value="category.slug"
+                                 type="checkbox"
+                                 class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                          >
+                          <label :for="`filter-mobile-${category.slug}`" class="ml-3 min-w-0 flex-1 text-gray-500">
+                            {{ category.name }}
+                          </label>
                         </div>
                       </div>
                     </div>
@@ -156,34 +135,19 @@
               <FilterExpand label="Categories" :initial-open="true">
                 <div class="pt-6">
                   <div class="space-y-4">
-                    <div class="flex items-center">
-                      <input id="filter-category-0" name="category[]" value="new-arrivals" type="checkbox"
-                             class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                      <label for="filter-category-0" class="ml-3 text-sm text-gray-600"> New Arrivals </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="filter-category-1" name="category[]" value="sale" type="checkbox"
-                             class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                      <label for="filter-category-1" class="ml-3 text-sm text-gray-600"> Sale </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="filter-category-2" name="category[]" value="travel" type="checkbox" checked
-                             class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                      <label for="filter-category-2" class="ml-3 text-sm text-gray-600"> Travel </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="filter-category-3" name="category[]" value="organization" type="checkbox"
-                             class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                      <label for="filter-category-3" class="ml-3 text-sm text-gray-600"> Organization </label>
-                    </div>
-
-                    <div class="flex items-center">
-                      <input id="filter-category-4" name="category[]" value="accessories" type="checkbox"
-                             class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500">
-                      <label for="filter-category-4" class="ml-3 text-sm text-gray-600"> Accessories </label>
+                    <div v-for="category in categories"
+                         :key="category.slug"
+                         class="flex items-center"
+                    >
+                      <input :id="`filter-${category.slug}`"
+                             v-model="filters.categories"
+                             :value="category.slug"
+                             type="checkbox"
+                             class="h-4 w-4 border-gray-300 rounded text-emerald-600 focus:ring-emerald-500"
+                      >
+                      <label :for="`filter-${category.slug}`" class="ml-3 text-sm text-gray-600">
+                        {{ category.name }}
+                      </label>
                     </div>
                   </div>
                 </div>
@@ -193,8 +157,16 @@
 
           <!-- Product grid -->
           <div class="lg:col-span-3">
-            <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-              <ProductCard :product="{}"></ProductCard>
+            <div v-if="products"
+                 class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
+            >
+              <ProductCard v-for="product in products"
+                           :key="product.id"
+                           :product="product"
+              ></ProductCard>
+            </div>
+            <div v-else>
+              No products.
             </div>
           </div>
         </div>
@@ -203,6 +175,10 @@
   </main>
 </template>
 <script>
+import {mapState, mapActions} from "pinia";
+import {useProductStore} from "@/stores/product";
+import {useCategoryStore} from "@/stores/category";
+
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';
 
 import ResponsiveFilterExpand from "@/components/ResponsiveFilterExpand";
@@ -228,7 +204,15 @@ export default {
       mobileFiltersOpen: false,
     }
   },
+  computed: {
+    ...mapState(useProductStore, ['products', 'loading', 'error']),
+    ...mapState(useCategoryStore, ['categories']),
+  },
+  created() {
+    this.fetchProducts();
+  },
   methods: {
+    ...mapActions(useProductStore, ['fetchProducts']),
     handleSortOptionClick(option) {
       this.filters.sort = option;
       this.$refs['sortDropdown'].close();
