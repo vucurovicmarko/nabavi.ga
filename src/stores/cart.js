@@ -1,6 +1,8 @@
 import {defineStore} from 'pinia';
+import {useToast} from "vue-toastification";
 
 const LOCAL_STORAGE_CART_KEY = 'cart';
+const toast = useToast();
 
 export const useCartStore = defineStore("cart", {
     state: () => ({
@@ -32,6 +34,7 @@ export const useCartStore = defineStore("cart", {
                 this.products.push({...product, quantity: 1});
             }
 
+            toast.success("Added to cart", {position: "bottom-left", timeout: 3000});
             this.saveCartToLocalStorage();
         },
         removeProduct(productId) {
