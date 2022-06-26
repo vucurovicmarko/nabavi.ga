@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="mt-8">
-                      <div class="flow-root">
+                      <div v-if="hasProducts" class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
                           <li v-for="product in products"
                               :key="product.slug"
@@ -94,10 +94,23 @@
                           </li>
                         </ul>
                       </div>
+                      <div v-else class="text-center py-12">
+                        <p class="text-2xl font-semibold">
+                          Nothing here yet
+                        </p>
+                        <router-link :to="{name: 'products'}"
+                                     @click.stop="close"
+                                     class="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                        >
+                          See products
+                        </router-link>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
+                  <div v-if="hasProducts"
+                       class="border-t border-gray-200 py-6 px-4 sm:px-6"
+                  >
                     <div class="flex justify-between text-base font-medium text-gray-900">
                       <p>Subtotal</p>
                       <p>{{ subtotal }} €</p>
