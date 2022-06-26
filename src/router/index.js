@@ -16,7 +16,7 @@ const routes = [
     {
         path: '/products/:category_slug',
         name: 'category_products',
-        component: () => import(/* webpackChunkName: "category_products" */ '@/views/CategoryView.vue'),
+        component: () => import(/* webpackChunkName: "category_products" */ '@/views/CategoryProductsView.vue'),
         meta: {title: 'Category'}, //ToDo dynamic title
     },
     {

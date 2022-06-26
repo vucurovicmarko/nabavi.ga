@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     setDefaultImg(e) {
-      e.target.src = require("@/assets/images/default-product.jpg");
+      e.target.src = this.product.get_image;
     }
   }
 }

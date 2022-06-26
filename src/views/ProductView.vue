@@ -1,46 +1,51 @@
 <template>
-  <main v-if="product">
-    <div class="pt-12 lg:pt-16">
-      <VBreadcrumb :breadcrumbs="breadcrumbs"></VBreadcrumb>
-    </div>
+  <main>
+    <VLoader v-if="loading" label="Loading product..."></VLoader>
+    <div v-else
+         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div class="pt-12 lg:pt-16">
+        <VBreadcrumb :breadcrumbs="breadcrumbs"></VBreadcrumb>
+      </div>
 
-    <section class="max-w-2xl mx-auto lg:max-w-7xl">
-      <div class="mt-6 pb-16 lg:pb-24">
-        <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 lg:px-8">
-          <div class="sm:px-6 lg:px-0">
-            <div class="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
-              <img class="w-full h-full object-center object-cover"
-                   :src="product.get_image"
-                   :alt="product.name"
+      <section class="max-w-2xl mx-auto lg:max-w-7xl">
+        <div class="mt-6 pb-16 lg:pb-24">
+          <div class="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-2 lg:px-8">
+            <div class="sm:px-6 lg:px-0">
+              <div class="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
+                <img class="w-full h-full object-center object-cover"
+                     :src="product.get_image"
+                     :alt="product.name"
+                >
+              </div>
+            </div>
+
+            <div class="px-4 sm:px-6 lg:px-0">
+              <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+                {{ product.name }}
+              </h1>
+              <p class="mt-2 text-3xl text-gray-900">
+                {{ product.price }} €
+              </p>
+
+              <p v-if="product.description"
+                 class="mt-6 text-base text-gray-900"
               >
+                {{ product.description }}
+              </p>
+
+              <form class="mt-10">
+                <button type="submit"
+                        class="mt-10 w-full bg-emerald-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                >
+                  Add to bag
+                </button>
+              </form>
             </div>
           </div>
-
-          <div class="px-4 sm:px-6 lg:px-0">
-            <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
-              {{ product.name }}
-            </h1>
-            <p class="mt-2 text-3xl text-gray-900">
-              {{ product.price }} €
-            </p>
-
-            <p v-if="product.description"
-               class="mt-6 text-base text-gray-900"
-            >
-              {{ product.description }}
-            </p>
-
-            <form class="mt-10">
-              <button type="submit"
-                      class="mt-10 w-full bg-emerald-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-              >
-                Add to bag
-              </button>
-            </form>
-          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 </template>
 
