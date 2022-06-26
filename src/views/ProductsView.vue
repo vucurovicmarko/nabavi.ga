@@ -178,8 +178,10 @@
   </main>
 </template>
 <script>
-import ProductService from "@/services/product.service";
+import {mapState} from "pinia";
 import {useCategoryStore} from "@/stores/category";
+
+import ProductService from "@/services/product.service";
 
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';
 
@@ -211,6 +213,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(useCategoryStore, ['categories']),
     hasProducts() {
       return this.products.length > 0;
     },
