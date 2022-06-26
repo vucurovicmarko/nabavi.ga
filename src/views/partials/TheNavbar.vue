@@ -42,20 +42,17 @@
               </div>
 
               <div class="py-6 px-4 space-y-6">
-                <div class="flow-root">
-                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Women</a>
-                </div>
-                <div class="flow-root">
-                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Men</a>
-                </div>
-                <div class="flow-root">
-                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Phones</a>
-                </div>
-                <div class="flow-root">
-                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Sports</a>
-                </div>
-                <div class="flow-root">
-                  <a href="#" class="-m-2 p-2 block font-medium text-gray-900">Jewelry</a>
+                <div v-for="category in categories"
+                     :key="category.slug"
+                     class="flow-root"
+                >
+                  <router-link :to="{name: 'category', params: {category: category.slug}}"
+                               class="-m-2 p-2 block font-medium text-gray-900"
+                               active-class="text-emerald-600"
+                               @click="closeMobileNav"
+                  >
+                    {{ category.name }}
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -96,14 +93,20 @@
 
             <div class="hidden lg:ml-8 lg:block lg:self-stretch">
               <div class="h-full flex space-x-8">
-                <!-- Item active: "border-emerald-600 text-emerald-600", Item inactive: "border-transparent text-gray-700 hover:text-gray-800" -->
                 <router-link v-for="category in categories"
                              :key="category.slug"
                              :to="{name: 'category', params: {category: category.slug}}"
-                             class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
+                             v-slot="{ navigate, href, isActive}"
+                             custom
                 >
-                  {{ category.name }}
+                  <a :href="href" @click="navigate"
+                     class="flex items-center transition-colors ease-out duration-200 text-sm font-medium border-b-2"
+                     :class="isActive ? 'border-emerald-600 text-emerald-600' : 'border-transparent text-gray-700 hover:text-gray-800'"
+                  >
+                    {{ category.name }}
+                  </a>
                 </router-link>
+
               </div>
             </div>
 
