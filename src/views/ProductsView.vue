@@ -178,8 +178,7 @@
   </main>
 </template>
 <script>
-import {mapState, mapActions} from "pinia";
-import {useProductStore} from "@/stores/product";
+import ProductService from "@/services/product.service";
 import {useCategoryStore} from "@/stores/category";
 
 import {TransitionRoot, TransitionChild} from '@headlessui/vue';
@@ -201,23 +200,33 @@ export default {
   },
   data() {
     return {
+      products: [],
       filters: {
         sort: null,
         categories: [],
       },
       sortOptions: ['Newest', 'Price: Low to High', 'Price: High to Low'],
       mobileFiltersOpen: false,
+      loading: false,
     }
   },
   computed: {
-    ...mapState(useProductStore, ['hasProducts', 'products', 'loading', 'error']),
-    ...mapState(useCategoryStore, ['categories']),
+    hasProducts() {
+      return this.products.length > 0;
+    },
   },
   created() {
     this.fetchProducts();
   },
   methods: {
-    ...mapActions(useProductStore, ['fetchProducts']),
+    fetchProducts() {
+      this.products = [];
+      this.loading = true;
+
+      ProductService.query()
+          .then(({data}) => this.products = data)
+          .finally(() => this.loading = false);
+    },
     handleSortOptionClick(option) {
       this.filters.sort = option;
       this.$refs['sortDropdown'].close();
