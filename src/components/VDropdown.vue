@@ -2,7 +2,7 @@
   <div class="relative"
        v-click-outside="close"
   >
-    <div @click="toggleOpen">
+    <div @click.stop="toggleOpen">
       <slot name="trigger" v-bind:open="open"></slot>
     </div>
 

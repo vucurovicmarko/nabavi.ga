@@ -29,7 +29,7 @@
             >
               <div class="px-4 flex items-center justify-between">
                 <h2 class="text-lg font-medium text-gray-900">Filters</h2>
-                <button @click="closeMobileFilters"
+                <button @click.stop="closeMobileFilters"
                         type="button"
                         class="-mr-2 w-10 h-10 bg-white p-2 rounded-md flex items-center justify-center text-gray-400"
                 >
@@ -98,7 +98,7 @@
                 <button v-for="option in sortOptions"
                         class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                         :class="filters.sort === option ? 'font-medium text-gray-900' : 'text-gray-500'"
-                        @click="handleSortOptionClick(option)"
+                        @click.stop="handleSortOptionClick(option)"
                         :key="option"
                 >
                   {{ option }}

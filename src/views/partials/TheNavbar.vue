@@ -49,7 +49,7 @@
                   <router-link :to="{name: 'category_products', params: {category_slug: category.slug}}"
                                class="-m-2 p-2 block font-medium text-gray-900"
                                active-class="text-emerald-600"
-                               @click="closeMobileNav"
+                               @click.stop="closeMobileNav"
                   >
                     {{ category.name }}
                   </router-link>

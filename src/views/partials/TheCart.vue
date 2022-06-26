@@ -33,7 +33,7 @@
                         Shopping cart
                       </h2>
                       <div class="ml-3 flex h-7 items-center">
-                        <button @click="close"
+                        <button @click.stop="close"
                                 type="button" class="-m-2 p-2 text-gray-400 hover:text-gray-500"
                         >
                           <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -65,7 +65,7 @@
                                   <h3>
                                     <router-link
                                         :to="product.get_absolute_url"
-                                        @click="close"
+                                        @click.stop="close"
                                     >
                                       {{ product.name }}
                                     </router-link>
@@ -82,7 +82,7 @@
                                 <p class="text-gray-500">Qty {{ product.quantity }}</p>
 
                                 <div class="flex">
-                                  <button @click="removeProduct(product.id)"
+                                  <button @click.stop="removeProduct(product.id)"
                                           type="button"
                                           class="font-medium text-emerald-600 hover:text-emerald-500"
                                   >
@@ -104,7 +104,7 @@
                     </div>
                     <div class="mt-6">
                       <router-link :to="{name: 'checkout'}"
-                                   @click="close"
+                                   @click.stop="close"
                                    class="flex items-center justify-center rounded-md border border-transparent bg-emerald-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-emerald-700"
                       >
                         Checkout
@@ -114,7 +114,7 @@
                       <p>
                         or
                         <router-link :to="{ name: 'products'}"
-                                     @click="close"
+                                     @click.stop="close"
                                      class="font-medium text-emerald-600 hover:text-emerald-500"
                         >
                           Continue Shopping
