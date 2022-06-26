@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main v-if="product">
     <div class="pt-12 lg:pt-16">
       <VBreadcrumb :breadcrumbs="breadcrumbs"></VBreadcrumb>
     </div>
@@ -10,20 +10,24 @@
           <div class="sm:px-6 lg:px-0">
             <div class="aspect-w-4 aspect-h-5 sm:rounded-lg sm:overflow-hidden lg:aspect-w-3 lg:aspect-h-4">
               <img class="w-full h-full object-center object-cover"
-                   src="https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg"
-                   alt="Model wearing plain white basic tee.">
+                   :src="product.get_image"
+                   :alt="product.name"
+              >
             </div>
           </div>
 
           <div class="px-4 sm:px-6 lg:px-0">
-            <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">Basic Tee 6-Pack</h1>
-            <p class="mt-2 text-3xl text-gray-900">$192</p>
+            <h1 class="text-2xl font-extrabold tracking-tight text-gray-900 sm:text-3xl">
+              {{ product.name }}
+            </h1>
+            <p class="mt-2 text-3xl text-gray-900">
+              {{ product.price }} €
+            </p>
 
-            <p class="mt-6 text-base text-gray-900">
-              The Basic Tee 6-Pack allows you to fully express your vibrant
-              personality with three grayscale options. Feeling adventurous? Put on a heather gray tee. Want to be a
-              trendsetter? Try our exclusive colorway: &quot;Black&quot;. Need to add an extra pop of color to your
-              outfit? Our white tee has you covered.
+            <p v-if="product.description"
+               class="mt-6 text-base text-gray-900"
+            >
+              {{ product.description }}
             </p>
 
             <form class="mt-10">
@@ -41,6 +45,8 @@
 </template>
 
 <script>
+import ProductService from "@/services/product.service";
+
 import VBreadcrumb from "@/components/VBreadcrumb";
 
 export default {
@@ -50,6 +56,8 @@ export default {
   },
   data() {
     return {
+      product: null,
+      loading: false,
       breadcrumbs: [
         {
           label: 'Products',
@@ -57,13 +65,25 @@ export default {
         },
         {
           label: 'Men',
-          to: {name: 'products'},
+          to: {name: 'category_products', params: {category_slug: 'men'}},
         },
         {
           label: 'Basic Tee 6-Pack',
           to: {name: 'product', params: {product: '1'}},
         }
-      ]
+      ],
+    }
+  },
+  created() {
+    this.fetchProduct();
+  },
+  methods: {
+    fetchProduct() {
+      this.loading = true;
+
+      ProductService.get(this.$route.params.category_slug, this.$route.params.product_slug)
+          .then(({data}) => this.product = data)
+          .finally(() => this.loading = false);
     }
   }
 }

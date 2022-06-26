@@ -46,7 +46,7 @@
                      :key="category.slug"
                      class="flow-root"
                 >
-                  <router-link :to="{name: 'category', params: {category: category.slug}}"
+                  <router-link :to="{name: 'category_products', params: {category_slug: category.slug}}"
                                class="-m-2 p-2 block font-medium text-gray-900"
                                active-class="text-emerald-600"
                                @click="closeMobileNav"
@@ -95,7 +95,7 @@
               <div class="h-full flex space-x-8">
                 <router-link v-for="category in categories"
                              :key="category.slug"
-                             :to="{name: 'category', params: {category: category.slug}}"
+                             :to="{name: 'category_products', params: {category_slug: category.slug}}"
                              v-slot="{ navigate, href, isActive}"
                              custom
                 >

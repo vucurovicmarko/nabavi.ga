@@ -7,7 +7,7 @@
       >
     </div>
     <h3 class="mt-6">
-      <router-link :to="{name: 'category', params: {category: category.slug}}"
+      <router-link :to="{name: 'category_products', params: {category_slug: category.slug}}"
                    class="text-base font-semibold text-gray-900"
       >
         <span class="absolute inset-0"></span>

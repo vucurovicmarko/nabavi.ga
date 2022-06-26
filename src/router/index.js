@@ -8,19 +8,19 @@ const routes = [
         component: StorefrontView
     },
     {
-        path: '/category/:category',
-        name: 'category',
-        component: () => import(/* webpackChunkName: "category" */ '@/views/CategoryView.vue'),
-        meta: {title: 'Category'}, //ToDo dynamic title
-    },
-    {
         path: '/products',
         name: 'products',
         component: () => import(/* webpackChunkName: "products" */ '@/views/ProductsView.vue'),
         meta: {title: 'Products'},
     },
     {
-        path: '/products/:product',
+        path: '/products/:category_slug',
+        name: 'category_products',
+        component: () => import(/* webpackChunkName: "category_products" */ '@/views/CategoryView.vue'),
+        meta: {title: 'Category'}, //ToDo dynamic title
+    },
+    {
+        path: '/products/:category_slug/:product_slug',
         name: 'product',
         component: () => import(/* webpackChunkName: "product" */ '@/views/ProductView.vue'),
         meta: {title: 'Product'}, //ToDo dynamic title
@@ -33,7 +33,7 @@ const routes = [
     },
     {
         path: '/:pathMatch(.*)*',
-        name: 'not-found',
+        name: 'not_found',
         component: () => import(/* webpackChunkName: 'notFound' */ '@/views/404View'),
         meta: {title: 'Not Found'},
     }

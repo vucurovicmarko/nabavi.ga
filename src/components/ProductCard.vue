@@ -11,7 +11,7 @@
       <div class="mt-4 flex justify-between">
         <div>
           <h3 class="text-sm text-gray-700">
-            <router-link :to="{ name: 'product', params: { product: '1' }}">
+            <router-link :to="product.get_absolute_url">
               <span class="absolute inset-0"></span>
               {{ product.name }}
             </router-link>
