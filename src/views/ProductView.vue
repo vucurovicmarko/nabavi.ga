@@ -63,20 +63,24 @@ export default {
     return {
       product: null,
       loading: false,
-      breadcrumbs: [
+    }
+  },
+  computed: {
+    breadcrumbs() {
+      return [
         {
           label: 'Products',
           to: {name: 'products'},
         },
         {
-          label: 'Men',
-          to: {name: 'category_products', params: {category_slug: 'men'}},
+          label: this.product.get_category,
+          to: {name: 'category_products', params: {category_slug: this.$route.params.category_slug}},
         },
         {
-          label: 'Basic Tee 6-Pack',
-          to: {name: 'product', params: {product: '1'}},
+          label: this.product.name,
+          to: this.product.get_absolute_url,
         }
-      ],
+      ]
     }
   },
   created() {
