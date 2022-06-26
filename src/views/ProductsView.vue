@@ -157,7 +157,7 @@
 
           <!-- Product grid -->
           <div class="lg:col-span-3">
-            <div v-if="products"
+            <div v-if="hasProducts"
                  class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
             >
               <ProductCard v-for="product in products"
@@ -165,9 +165,7 @@
                            :product="product"
               ></ProductCard>
             </div>
-            <div v-else>
-              No products.
-            </div>
+            <EmptyState v-else label="No products"></EmptyState>
           </div>
         </div>
       </section>
@@ -184,6 +182,7 @@ import {TransitionRoot, TransitionChild} from '@headlessui/vue';
 import ResponsiveFilterExpand from "@/components/ResponsiveFilterExpand";
 import FilterExpand from "@/components/FilterExpand";
 import ProductCard from "@/components/ProductCard";
+import EmptyState from "@/components/EmptyState";
 
 export default {
   name: "ProductsView",
@@ -193,6 +192,7 @@ export default {
     ResponsiveFilterExpand,
     FilterExpand,
     ProductCard,
+    EmptyState,
   },
   data() {
     return {
@@ -205,7 +205,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(useProductStore, ['products', 'loading', 'error']),
+    ...mapState(useProductStore, ['hasProducts', 'products', 'loading', 'error']),
     ...mapState(useCategoryStore, ['categories']),
   },
   created() {

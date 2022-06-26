@@ -7,6 +7,9 @@ export const useProductStore = defineStore("product", {
         loading: false,
         error: null,
     }),
+    getters: {
+        hasProducts: (state) => state.products.length,
+    },
     actions: {
         fetchProducts() {
             this.products = [];
