@@ -78,8 +78,31 @@
                                   {{ product.get_category }}
                                 </p>
                               </div>
-                              <div class="flex flex-1 items-end justify-between text-sm">
-                                <p class="text-gray-500">Qty {{ product.quantity }}</p>
+                              <div class="mt-4 flex flex-1 items-end justify-between text-sm">
+                                <div class="flex-shrink-0 flex items-center space-x-4">
+                                  <button @click.stop="decreaseQuantity(product)"
+                                          type="button"
+                                          class="inline-flex items-center p-1 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                  >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/>
+                                    </svg>
+                                  </button>
+
+                                  <p class="text-gray-500">Qty: {{ product.quantity }}</p>
+
+                                  <button @click.stop="increaseQuantity(product)"
+                                          type="button"
+                                          class="inline-flex items-center p-1 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                  >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                      <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                    </svg>
+                                  </button>
+                                </div>
 
                                 <div class="flex">
                                   <button @click.stop="removeProduct(product.id)"
@@ -163,10 +186,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(useCartStore, ['products', 'hasProducts', 'subtotal']),
+    ...mapState(useCartStore, [
+      'products',
+      'hasProducts',
+      'subtotal'
+    ]),
   },
   methods: {
-    ...mapActions(useCartStore, ['addProduct', 'removeProduct']),
+    ...mapActions(useCartStore, [
+      'addProduct',
+      'removeProduct',
+      'increaseQuantity',
+      'decreaseQuantity'
+    ]),
     open() {
       this.isOpen = true;
     },

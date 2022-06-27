@@ -25,8 +25,25 @@ export const useCartStore = defineStore("cart", {
                 this.products = JSON.parse(products);
             }
         },
+        increaseQuantity(product) {
+            const cartProduct = this.getCartProduct(product.id);
+            cartProduct.quantity++;
+
+            this.saveCartToLocalStorage();
+        },
+        decreaseQuantity(product) {
+            const cartProduct = this.getCartProduct(product.id);
+
+            if (cartProduct.quantity > 1) {
+                cartProduct.quantity--;
+            } else {
+                this.removeProduct(product.id);
+            }
+
+            this.saveCartToLocalStorage();
+        },
         addProduct(product) {
-            const cartProduct = this.products.find(({id}) => id === product.id);
+            const cartProduct = this.getCartProduct(product.id);
 
             if (cartProduct) {
                 cartProduct.quantity++;
@@ -45,6 +62,9 @@ export const useCartStore = defineStore("cart", {
             }
 
             this.saveCartToLocalStorage();
+        },
+        getCartProduct(productId) {
+            return this.products.find(({id}) => id === productId)
         },
         saveCartToLocalStorage() {
             localStorage.setItem(LOCAL_STORAGE_CART_KEY, JSON.stringify(this.products));
