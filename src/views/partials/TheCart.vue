@@ -90,7 +90,9 @@
                                     </svg>
                                   </button>
 
-                                  <p class="text-gray-500">Qty: {{ product.quantity }}</p>
+                                  <p class="text-gray-500 text-center min-w-[4rem]">
+                                    Qty: {{ product.quantity }}
+                                  </p>
 
                                   <button @click.stop="increaseQuantity(product)"
                                           type="button"
