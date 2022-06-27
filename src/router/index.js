@@ -48,13 +48,11 @@ const router = createRouter({
 });
 
 router.afterEach((to) => {
-    const DEFAULT_TITLE = "nabavi.ga";
-
     if (to.meta.title) {
-        to.meta.title = `${to.meta.title} | ${DEFAULT_TITLE}`;
+        to.meta.title = `${to.meta.title} | ${process.env.VUE_APP_TITLE}`;
     }
 
-    document.title = to.meta.title || DEFAULT_TITLE;
+    document.title = to.meta.title || process.env.VUE_APP_TITLE;
 });
 
 export default router;
