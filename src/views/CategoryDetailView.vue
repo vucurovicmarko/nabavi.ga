@@ -31,8 +31,6 @@
 </template>
 
 <script>
-import {redirectIfNotFound} from "@/mixins";
-
 import CategoryService from "@/services/category.service";
 
 import ProductCard from "@/components/ProductCard";
@@ -40,7 +38,6 @@ import EmptyState from "@/components/EmptyState";
 
 export default {
   name: "CategoryDetailView",
-  mixins: [redirectIfNotFound],
   components: {
     ProductCard,
     EmptyState,
@@ -49,6 +46,7 @@ export default {
     return {
       category: null,
       loading: false,
+      error: false,
     }
   },
   created() {
@@ -74,7 +72,7 @@ export default {
                 this.category = data;
                 document.title = `${this.category.name} | ${process.env.VUE_APP_TITLE}`;
               },
-              error => this.handleError(error)
+              error => this.error = true
           )
           .finally(() => this.loading = false);
     }

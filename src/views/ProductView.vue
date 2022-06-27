@@ -51,15 +51,12 @@
 import {mapActions} from "pinia";
 import {useCartStore} from "@/stores/cart";
 
-import {redirectIfNotFound} from "@/mixins";
-
 import ProductService from "@/services/product.service";
 
 import VBreadcrumb from "@/components/VBreadcrumb";
 
 export default {
   name: "ProductView",
-  mixins: [redirectIfNotFound],
   components: {
     VBreadcrumb,
   },
@@ -68,6 +65,7 @@ export default {
       product: null,
       breadcrumbs: null,
       loading: false,
+      error: false,
     }
   },
   watch: {
@@ -84,15 +82,12 @@ export default {
       this.loading = true;
 
       ProductService.get(this.$route.params.category_slug, this.$route.params.product_slug)
-          .then(
-              ({data}) => {
-                this.product = data;
-                document.title = `${this.product.name} | ${process.env.VUE_APP_TITLE}`;
-
-                this.setBreadcrumbs();
-              },
-              error => this.handleError(error)
-          )
+          .then(({data}) => {
+            this.product = data;
+            document.title = `${this.product.name} | ${process.env.VUE_APP_TITLE}`;
+          })
+          .then(() => this.setBreadcrumbs())
+          .catch(error => this.error = true)
           .finally(() => this.loading = false);
     },
     setBreadcrumbs() {
