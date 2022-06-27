@@ -21,7 +21,7 @@
                          :product="product"
             ></ProductCard>
           </div>
-          <EmptyState v-else label="No products"></EmptyState>
+          <EmptyState v-else :label="`No products in ${category} category`"></EmptyState>
         </div>
       </section>
     </div>
