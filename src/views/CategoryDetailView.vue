@@ -1,7 +1,9 @@
 <template>
   <main>
     <VLoader v-if="loading"></VLoader>
-    <div v-else class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div v-else-if="!error"
+         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
       <div class="pt-12 lg:pt-16">
         <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
           {{ category.name }}
@@ -29,6 +31,9 @@
 </template>
 
 <script>
+import {useToast} from "vue-toastification";
+import {redirectIfNotFound} from "@/mixins";
+
 import CategoryService from "@/services/category.service";
 
 import ProductCard from "@/components/ProductCard";
@@ -36,6 +41,7 @@ import EmptyState from "@/components/EmptyState";
 
 export default {
   name: "CategoryDetailView",
+  mixins: [redirectIfNotFound],
   components: {
     ProductCard,
     EmptyState,
@@ -64,14 +70,16 @@ export default {
       this.loading = true;
 
       CategoryService.get(this.$route.params.category_slug)
-          .then(({data}) => {
-            this.category = data;
-
-            document.title = `${this.category.name} | ${process.env.VUE_APP_TITLE}`;
-          })
+          .then(
+              ({data}) => {
+                this.category = data;
+                document.title = `${this.category.name} | ${process.env.VUE_APP_TITLE}`;
+              },
+              error => this.handleError(error)
+          )
           .finally(() => this.loading = false);
     }
-  }
+  },
 }
 </script>
 

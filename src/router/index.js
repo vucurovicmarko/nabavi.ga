@@ -33,7 +33,7 @@ const routes = [
         path: '/:pathMatch(.*)*',
         name: 'not_found',
         component: () => import(/* webpackChunkName: 'notFound' */ '@/views/404View'),
-        meta: {title: 'Not Found'},
+        meta: {title: '404'},
     }
 ];
 
