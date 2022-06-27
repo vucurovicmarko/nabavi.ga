@@ -75,7 +75,7 @@ export default {
         },
         {
           label: this.product.get_category,
-          to: {name: 'category_products', params: {category_slug: this.$route.params.category_slug}},
+          to: {name: 'category', params: {category_slug: this.$route.params.category_slug}},
         },
         {
           label: this.product.name,
@@ -85,11 +85,8 @@ export default {
     }
   },
   watch: {
-    '$route.params': {
-      handler(newParams) {
-        if (newParams.category_slug && newParams.product_slug) this.fetchProduct();
-      },
-      deep: true
+    $route(to, from) {
+      if (to.name === 'product') this.fetchProduct();
     }
   },
   created() {

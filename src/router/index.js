@@ -15,8 +15,8 @@ const routes = [
     },
     {
         path: '/products/:category_slug',
-        name: 'category_products',
-        component: () => import(/* webpackChunkName: "category_products" */ '@/views/CategoryDetailView.vue'),
+        name: 'category',
+        component: () => import(/* webpackChunkName: "category" */ '@/views/CategoryDetailView.vue'),
     },
     {
         path: '/products/:category_slug/:product_slug',

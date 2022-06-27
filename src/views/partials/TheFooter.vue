@@ -7,7 +7,7 @@
              class="px-5 py-2"
         >
           <router-link
-              :to="{name: 'category_products', params: {category_slug: category.slug}}"
+              :to="{name: 'category', params: {category_slug: category.slug}}"
               class="text-base text-gray-500 hover:text-gray-900"
           >
             {{ category.name }}

@@ -61,8 +61,8 @@ export default {
     },
   },
   watch: {
-    '$route.params.category_slug'(newSlug) {
-      if (newSlug) this.fetchProducts();
+    $route(to, from) {
+      if (to.name === 'category') this.fetchProducts();
     }
   },
   methods: {
