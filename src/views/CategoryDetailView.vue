@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import {useToast} from "vue-toastification";
 import {redirectIfNotFound} from "@/mixins";
 
 import CategoryService from "@/services/category.service";

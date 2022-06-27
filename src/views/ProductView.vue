@@ -1,7 +1,7 @@
 <template>
   <main>
     <VLoader v-if="loading" label="Loading product..."></VLoader>
-    <div v-else
+    <div v-else-if="!error"
          class="max-w-7xl mx-auto"
     >
       <div class="pt-12 lg:pt-16">
@@ -51,37 +51,23 @@
 import {mapActions} from "pinia";
 import {useCartStore} from "@/stores/cart";
 
+import {redirectIfNotFound} from "@/mixins";
+
 import ProductService from "@/services/product.service";
 
 import VBreadcrumb from "@/components/VBreadcrumb";
 
 export default {
   name: "ProductView",
+  mixins: [redirectIfNotFound],
   components: {
     VBreadcrumb,
   },
   data() {
     return {
       product: null,
+      breadcrumbs: null,
       loading: false,
-    }
-  },
-  computed: {
-    breadcrumbs() {
-      return [
-        {
-          label: 'Products',
-          to: {name: 'products'},
-        },
-        {
-          label: this.product.get_category,
-          to: {name: 'category', params: {category_slug: this.$route.params.category_slug}},
-        },
-        {
-          label: this.product.name,
-          to: this.product.get_absolute_url,
-        }
-      ]
     }
   },
   watch: {
@@ -98,12 +84,33 @@ export default {
       this.loading = true;
 
       ProductService.get(this.$route.params.category_slug, this.$route.params.product_slug)
-          .then(({data}) => {
-            this.product = data;
-            document.title = `${this.product.name} | ${process.env.VUE_APP_TITLE}`;
-          })
+          .then(
+              ({data}) => {
+                this.product = data;
+                document.title = `${this.product.name} | ${process.env.VUE_APP_TITLE}`;
+
+                this.setBreadcrumbs();
+              },
+              error => this.handleError(error)
+          )
           .finally(() => this.loading = false);
-    }
+    },
+    setBreadcrumbs() {
+      this.breadcrumbs = [
+        {
+          label: 'Products',
+          to: {name: 'products'},
+        },
+        {
+          label: this.product.get_category,
+          to: {name: 'category', params: {category_slug: this.$route.params.category_slug}},
+        },
+        {
+          label: this.product.name,
+          to: this.product.get_absolute_url,
+        }
+      ]
+    },
   }
 }
 </script>
