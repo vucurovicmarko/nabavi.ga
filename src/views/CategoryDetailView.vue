@@ -4,7 +4,7 @@
     <div v-else class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="pt-12 lg:pt-16">
         <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
-          {{ category }}
+          {{ category.name }}
         </h1>
       </div>
 
@@ -16,12 +16,12 @@
           <div v-if="hasProducts"
                class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"
           >
-            <ProductCard v-for="product in products"
+            <ProductCard v-for="product in category.products"
                          :key="product.id"
                          :product="product"
             ></ProductCard>
           </div>
-          <EmptyState v-else :label="`No products in ${category} category`"></EmptyState>
+          <EmptyState v-else :label="`No products in ${category.name} category`"></EmptyState>
         </div>
       </section>
     </div>
@@ -29,13 +29,13 @@
 </template>
 
 <script>
-import ProductService from "@/services/product.service";
+import CategoryService from "@/services/category.service";
 
 import ProductCard from "@/components/ProductCard";
 import EmptyState from "@/components/EmptyState";
 
 export default {
-  name: "CategoryProductsView",
+  name: "CategoryDetailView",
   components: {
     ProductCard,
     EmptyState,
@@ -43,7 +43,6 @@ export default {
   data() {
     return {
       category: null,
-      products: [],
       loading: false,
     }
   },
@@ -52,7 +51,7 @@ export default {
   },
   computed: {
     hasProducts() {
-      return this.products.length > 0;
+      return this.category.products.length > 0;
     },
   },
   watch: {
@@ -64,12 +63,11 @@ export default {
     fetchProducts() {
       this.loading = true;
 
-      ProductService.getCategoryProducts(this.$route.params.category_slug)
+      CategoryService.get(this.$route.params.category_slug)
           .then(({data}) => {
-            this.category = data.category;
-            this.products = data.data;
+            this.category = data;
 
-            document.title = `${this.category} | ${process.env.VUE_APP_TITLE}`;
+            document.title = `${this.category.name} | ${process.env.VUE_APP_TITLE}`;
           })
           .finally(() => this.loading = false);
     }

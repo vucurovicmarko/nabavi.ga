@@ -7,7 +7,7 @@
       >
     </div>
     <h3 class="mt-6">
-      <router-link :to="{name: 'category_products', params: {category_slug: category.slug}}"
+      <router-link :to="category.get_absolute_url"
                    class="text-base font-semibold text-gray-900"
       >
         <span class="absolute inset-0"></span>
