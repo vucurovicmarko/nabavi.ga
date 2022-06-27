@@ -68,6 +68,8 @@ export default {
           .then(({data}) => {
             this.category = data.category;
             this.products = data.data;
+
+            document.title = `${this.category} | ${process.env.VUE_APP_TITLE}`;
           })
           .finally(() => this.loading = false);
     }

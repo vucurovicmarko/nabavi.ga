@@ -2,7 +2,7 @@
   <main>
     <VLoader v-if="loading" label="Loading product..."></VLoader>
     <div v-else
-         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+         class="max-w-7xl mx-auto"
     >
       <div class="pt-12 lg:pt-16">
         <VBreadcrumb :breadcrumbs="breadcrumbs"></VBreadcrumb>
@@ -101,7 +101,10 @@ export default {
       this.loading = true;
 
       ProductService.get(this.$route.params.category_slug, this.$route.params.product_slug)
-          .then(({data}) => this.product = data)
+          .then(({data}) => {
+            this.product = data;
+            document.title = `${this.product.name} | ${process.env.VUE_APP_TITLE}`;
+          })
           .finally(() => this.loading = false);
     }
   }

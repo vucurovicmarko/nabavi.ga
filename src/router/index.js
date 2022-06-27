@@ -17,13 +17,11 @@ const routes = [
         path: '/products/:category_slug',
         name: 'category_products',
         component: () => import(/* webpackChunkName: "category_products" */ '@/views/CategoryProductsView.vue'),
-        meta: {title: 'Category'}, //ToDo dynamic title
     },
     {
         path: '/products/:category_slug/:product_slug',
         name: 'product',
         component: () => import(/* webpackChunkName: "product" */ '@/views/ProductView.vue'),
-        meta: {title: 'Product'}, //ToDo dynamic title
     },
     {
         path: '/checkout',
