@@ -9,8 +9,8 @@ class ProductService {
     return axios.get(`products/${category_slug}/${product_slug}/`);
   }
 
-  search(query) {
-    return axios.post("products/search/", query);
+  search(data) {
+    return axios.post("products/search/", data);
   }
 }
 
