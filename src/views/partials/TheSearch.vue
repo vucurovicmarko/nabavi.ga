@@ -24,7 +24,7 @@
             as="template"
         >
           <div v-click-outside="close"
-              class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
+               class="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all">
             <div class="relative">
               <svg class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
                    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -32,9 +32,14 @@
                       d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
                       clip-rule="evenodd"/>
               </svg>
-              <input type="text"
-                     class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
-                     placeholder="Search products...">
+              <form @submit.prevent="submit">
+                <input ref="input"
+                       type="text"
+                       v-model="query.q"
+                       class="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-800 placeholder-gray-400 focus:ring-0 sm:text-sm"
+                       placeholder="Search products..."
+                >
+              </form>
             </div>
           </div>
         </TransitionChild>
@@ -55,9 +60,27 @@ export default {
   data() {
     return {
       isOpen: false,
+      query: {
+        q: '',
+      },
     }
   },
+  watch: {
+    isOpen(open) {
+      if (open) this.$nextTick(() => this.$refs.input.focus())
+    },
+  },
   methods: {
+    submit() {
+      this.$router.push({
+        name: 'products_search',
+        query: this.query
+      });
+
+      // ToDo mount component everytime or reset state here
+      this.query.q = '';
+      this.close();
+    },
     open() {
       this.isOpen = true;
     },
