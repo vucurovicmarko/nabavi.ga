@@ -91,15 +91,15 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="pt-12 lg:pt-16">
         <div
-          class="relative z-10 flex items-baseline justify-between pb-6 border-b border-gray-200"
+          class="relative z-10 pb-6 border-b border-gray-200 lg:flex lg:items-baseline lg:justify-between"
         >
-          <h1 class="text-4xl font-extrabold tracking-tight text-gray-900">
+          <h1 class="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 lg:mb-0">
             Products
           </h1>
 
-          <div class="flex items-center">
+          <div class="flex items-center justify-end">
             <!-- Search -->
-            <div class="mr-6">
+            <div class="mr-6 flex-1 max-w-sm">
               <label for="search" class="sr-only">Searh</label>
               <div class="mt-1 relative rounded-md shadow-sm">
                 <div
