@@ -14,6 +14,11 @@ const routes = [
         meta: {title: 'Products'},
     },
     {
+        path: '/products/search',
+        name: 'products_search',
+        component: () => import(/* webpackChunkName: "products_search" */ '@/views/ProductsSearchView.vue'),
+    },
+    {
         path: '/products/:category_slug',
         name: 'category',
         component: () => import(/* webpackChunkName: "category" */ '@/views/CategoryDetailView.vue'),
@@ -39,7 +44,7 @@ const routes = [
 
 const router = createRouter({
     scrollBehavior(to, from, savedPosition) {
-        return { top: 0 }
+        return {top: 0}
     },
     history: createWebHistory(process.env.BASE_URL),
     routes
