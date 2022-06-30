@@ -172,6 +172,7 @@
             <button
               type="button"
               class="p-2 -m-2 ml-5 sm:ml-7 text-gray-400 hover:text-gray-500"
+              @click="toggleGridView"
             >
               <svg
                 class="w-5 h-5"
@@ -245,15 +246,21 @@
           <div class="lg:col-span-3">
             <VLoader v-if="loading" label="Loading products..."></VLoader>
 
-            <div
-              v-else-if="hasProducts && hasFilteredProducts"
-              class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8"
-            >
-              <ProductCard
-                v-for="product in filteredProducts"
-                :key="product.id"
-                :product="product"
-              ></ProductCard>
+            <div v-else-if="hasProducts && hasFilteredProducts">
+              <div
+                :class="
+                  gridView
+                    ? 'grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8'
+                    : 'space-y-2'
+                "
+              >
+                <component
+                  :is="productViewComponent"
+                  v-for="product in filteredProducts"
+                  :key="product.id"
+                  :product="product"
+                ></component>
+              </div>
             </div>
 
             <EmptyState v-else label="No products"></EmptyState>
@@ -272,6 +279,7 @@ import ProductService from "@/services/product.service";
 import { TransitionRoot, TransitionChild } from "@headlessui/vue";
 
 import ResponsiveFilterExpand from "@/components/ResponsiveFilterExpand";
+import ProductList from "@/components/ProductList.vue";
 import FilterExpand from "@/components/FilterExpand";
 import ProductCard from "@/components/ProductCard";
 import EmptyState from "@/components/EmptyState";
@@ -279,10 +287,11 @@ import EmptyState from "@/components/EmptyState";
 export default {
   name: "ProductsView",
   components: {
-    TransitionRoot,
-    TransitionChild,
     ResponsiveFilterExpand,
+    TransitionChild,
+    TransitionRoot,
     FilterExpand,
+    ProductList,
     ProductCard,
     EmptyState,
   },
@@ -302,10 +311,21 @@ export default {
         categories: [],
         query: "",
       },
+
+      gridView: true,
     };
   },
   computed: {
     ...mapState(useCategoryStore, ["categories"]),
+    productViewComponent() {
+      return this.gridView ? "ProductCard" : "ProductList";
+    },
+    hasProducts() {
+      return this.products.length > 0;
+    },
+    hasFilteredProducts() {
+      return this.filteredProducts.length > 0;
+    },
     filteredProducts() {
       // Filter by category and name
       const filteredProducts = this.products.filter((product) => {
@@ -338,12 +358,6 @@ export default {
 
       return filteredProducts;
     },
-    hasProducts() {
-      return this.products.length > 0;
-    },
-    hasFilteredProducts() {
-      return this.filteredProducts.length > 0;
-    },
   },
   created() {
     this.fetchProducts();
@@ -360,6 +374,9 @@ export default {
     handleSortOptionClick(optionKey) {
       this.filters.sort = optionKey;
       this.$refs["sortDropdown"].close();
+    },
+    toggleGridView() {
+      this.gridView = !this.gridView;
     },
     openMobileFilters() {
       this.mobileFiltersOpen = true;
