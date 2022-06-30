@@ -154,7 +154,7 @@
 
               <div class="py-1">
                 <button
-                  v-for="option in sortOptions"
+                  v-for="option in Object.keys(sortOptions)"
                   class="block w-full px-4 py-2 text-left text-sm hover:bg-gray-100"
                   :class="
                     filters.sort === option
@@ -164,7 +164,7 @@
                   @click.stop="handleSortOptionClick(option)"
                   :key="option"
                 >
-                  {{ option }}
+                  {{ sortOptions[option] }}
                 </button>
               </div>
             </VDropdown>
@@ -289,7 +289,10 @@ export default {
   data() {
     return {
       products: [],
-      sortOptions: ["Newest", "Price: Low to High", "Price: High to Low"],
+      sortOptions: {
+        lowToHigh: "Price: Low to High",
+        highToLow: "Price: High to Low",
+      },
       mobileFiltersOpen: false,
       loading: false,
 
@@ -304,13 +307,12 @@ export default {
   computed: {
     ...mapState(useCategoryStore, ["categories"]),
     filteredProducts() {
-      return this.products.filter((product) => {
+      // Filter by category and name
+      const filteredProducts = this.products.filter((product) => {
         let categoryMatched = true;
         let nameMatched =
           product.name.toLowerCase().indexOf(this.filters.query.toLowerCase()) >
           -1;
-
-        console.log(this.filters.categories.length);
 
         if (this.filters.categories.length > 0) {
           categoryMatched = this.filters.categories.includes(
@@ -320,6 +322,21 @@ export default {
 
         return categoryMatched && nameMatched;
       });
+
+      // Sort
+      if (this.filters.sort === "lowToHigh") {
+        filteredProducts.sort(
+          (a, b) => parseFloat(a.price) - parseFloat(b.price)
+        );
+      }
+
+      if (this.filters.sort === "highToLow") {
+        filteredProducts.sort(
+          (a, b) => parseFloat(b.price) - parseFloat(a.price)
+        );
+      }
+
+      return filteredProducts;
     },
     hasProducts() {
       return this.products.length > 0;
@@ -340,8 +357,8 @@ export default {
         .then(({ data }) => (this.products = data))
         .finally(() => (this.loading = false));
     },
-    handleSortOptionClick(option) {
-      this.filters.sort = option;
+    handleSortOptionClick(optionKey) {
+      this.filters.sort = optionKey;
       this.$refs["sortDropdown"].close();
     },
     openMobileFilters() {
