@@ -29,7 +29,12 @@
               class="ml-auto relative max-w-xs w-full h-full bg-white shadow-xl py-4 pb-12 flex flex-col overflow-y-auto"
             >
               <div class="px-4 flex items-center justify-between">
-                <h2 class="text-lg font-medium text-gray-900">Filters</h2>
+                <span class="text-lg font-medium text-gray-900">
+                  Filters
+                  <button class="text-gray-500 ml-4" @click="clearFilters">
+                    Clear All
+                  </button>
+                </span>
                 <button
                   @click.stop="closeMobileFilters"
                   type="button"
@@ -55,7 +60,7 @@
               <!-- Filters -->
               <form class="mt-4 border-t border-gray-200">
                 <div class="px-4 py-6">
-                  <ResponsiveFilterExpand label="Categories">
+                  <ResponsiveFilterExpand label="Categories" :initial-open="true">
                     <div class="pt-6">
                       <div class="space-y-6">
                         <div
@@ -93,7 +98,9 @@
         <div
           class="relative z-10 pb-6 border-b border-gray-200 lg:flex lg:items-baseline lg:justify-between"
         >
-          <h1 class="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 lg:mb-0">
+          <h1
+            class="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 lg:mb-0"
+          >
             Products
           </h1>
 
@@ -212,8 +219,16 @@
 
         <div class="pt-6 grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10">
           <!-- Filters -->
-          <form class="hidden lg:block">
-            <div>
+          <div class="hidden lg:block lg:col-span-1">
+            <div class="mb-6 pb-6 border-b border-gray-200">
+              <div class="flex justify-between text-sm">
+                <span class="font-medium text-gray-900"> Filters </span>
+                <button class="text-gray-500" @click.stop="clearFilters">
+                  Clear all
+                </button>
+              </div>
+            </div>
+            <form>
               <FilterExpand label="Categories" :initial-open="true">
                 <div class="pt-6">
                   <div class="space-y-4">
@@ -239,8 +254,8 @@
                   </div>
                 </div>
               </FilterExpand>
-            </div>
-          </form>
+            </form>
+          </div>
 
           <!-- Product grid -->
           <div class="lg:col-span-3">
@@ -284,6 +299,14 @@ import FilterExpand from "@/components/FilterExpand";
 import ProductCard from "@/components/ProductCard";
 import EmptyState from "@/components/EmptyState";
 
+const initialFilters = () => {
+  return {
+    sort: null,
+    categories: [],
+    query: "",
+  };
+};
+
 export default {
   name: "ProductsView",
   components: {
@@ -306,11 +329,7 @@ export default {
       loading: false,
 
       // This is filtering upon fetched products
-      filters: {
-        sort: null,
-        categories: [],
-        query: "",
-      },
+      filters: initialFilters(),
 
       gridView: true,
     };
@@ -374,6 +393,9 @@ export default {
     handleSortOptionClick(optionKey) {
       this.filters.sort = optionKey;
       this.$refs["sortDropdown"].close();
+    },
+    clearFilters() {
+      this.filters = initialFilters();
     },
     toggleGridView() {
       this.gridView = !this.gridView;
