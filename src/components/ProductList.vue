@@ -19,6 +19,9 @@
       <p class="text-sm text-gray-500 truncate">
         {{ product.description }}
       </p>
+      <p class="mt-4 text-lg font-medium text-gray-900">
+        {{ product.price }} €
+      </p>
     </div>
     <button
       type="button"
