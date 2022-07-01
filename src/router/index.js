@@ -8,6 +8,12 @@ const routes = [
         component: StorefrontView
     },
     {
+        path: '/checkout',
+        name: 'checkout',
+        component: () => import(/* webpackChunkName: "checkout" */ '@/views/CheckoutView.vue'),
+        meta: {title: 'Checkout'},
+    },
+    {
         path: '/products',
         name: 'products',
         component: () => import(/* webpackChunkName: "products" */ '@/views/ProductsView.vue'),
@@ -27,12 +33,6 @@ const routes = [
         path: '/products/:category_slug/:product_slug',
         name: 'product',
         component: () => import(/* webpackChunkName: "product" */ '@/views/ProductView.vue'),
-    },
-    {
-        path: '/checkout',
-        name: 'checkout',
-        component: () => import(/* webpackChunkName: "checkout" */ '@/views/CheckoutView.vue'),
-        meta: {title: 'Checkout'},
     },
     {
         path: '/:pathMatch(.*)*',
