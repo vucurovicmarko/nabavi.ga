@@ -8,6 +8,18 @@ const routes = [
         component: StorefrontView
     },
     {
+        path: '/login',
+        name: 'login',
+        component: () => import(/* webpackChunkName: "login" */ '@/views/LoginView.vue'),
+        meta: {title: 'Login', layout: 'auth'},
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: () => import(/* webpackChunkName: "register" */ '@/views/RegisterView.vue'),
+        meta: {title: 'Register', layout: 'auth'},
+    },
+    {
         path: '/checkout',
         name: 'checkout',
         component: () => import(/* webpackChunkName: "checkout" */ '@/views/CheckoutView.vue'),

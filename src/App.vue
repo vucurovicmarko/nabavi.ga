@@ -1,17 +1,17 @@
 <template>
-  <TheNavbar></TheNavbar>
+  <TheNavbar v-if="!authLayout"></TheNavbar>
 
   <div class="flex-grow flex flex-col">
-    <RouterView/>
+    <RouterView />
   </div>
 
-  <TheFooter></TheFooter>
+  <TheFooter v-if="!authLayout"></TheFooter>
 </template>
 
 <script>
-import {mapActions} from "pinia";
-import {useCategoryStore} from "@/stores/category";
-import {useCartStore} from "@/stores/cart";
+import { mapActions } from "pinia";
+import { useCategoryStore } from "@/stores/category";
+import { useCartStore } from "@/stores/cart";
 
 import TheNavbar from "@/views/partials/TheNavbar";
 import TheFooter from "@/views/partials/TheFooter";
@@ -21,17 +21,20 @@ export default {
     TheNavbar,
     TheFooter,
   },
+  computed: {
+    authLayout() {
+      return this.$route.meta.layout === 'auth';
+    }
+  },
   created() {
     this.fetchCategories();
     this.initializeCart();
   },
   methods: {
-    ...mapActions(useCategoryStore, ['fetchCategories']),
-    ...mapActions(useCartStore, ['initializeCart']),
+    ...mapActions(useCategoryStore, ["fetchCategories"]),
+    ...mapActions(useCartStore, ["initializeCart"]),
   },
-}
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

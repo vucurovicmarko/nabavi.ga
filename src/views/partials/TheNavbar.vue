@@ -83,17 +83,19 @@
           class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto h-10 flex justify-end items-center"
         >
           <div class="space-x-6">
-            <a
-              href="#"
+            <router-link
+              :to="{ name: 'login' }"
               class="text-sm font-medium text-gray-200 hover:text-white"
-              >Login</a
             >
+              Login
+            </router-link>
             <span class="h-6 w-px bg-gray-200"></span>
-            <a
-              href="#"
+            <router-link
+              :to="{ name: 'register' }"
               class="text-sm font-medium text-gray-200 hover:text-white"
-              >Register</a
             >
+              Register
+            </router-link>
           </div>
         </div>
       </div>
