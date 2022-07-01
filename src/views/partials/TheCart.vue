@@ -108,7 +108,7 @@
                                       </router-link>
                                     </h3>
                                     <p class="ml-4 whitespace-nowrap">
-                                      {{ product.price }} €
+                                      {{ formatPrice(product.price) }}
                                     </p>
                                   </div>
                                   <p class="mt-1 text-sm text-gray-500">
@@ -205,7 +205,7 @@
                         class="flex justify-between text-base font-medium text-gray-900"
                       >
                         <p>Subtotal</p>
-                        <p>{{ subtotal }} €</p>
+                        <p>{{ formatPrice(subtotal) }}</p>
                       </div>
                       <div class="mt-6">
                         <router-link
@@ -247,11 +247,13 @@ import { mapState, mapActions } from "pinia";
 import { useCartStore } from "@/stores/cart";
 
 import { TransitionRoot, TransitionChild } from "@headlessui/vue";
+
+import formatPrice from "@/mixins/formatPrice";
 import modal from "@/mixins/modal";
 
 export default {
   name: "TheCart",
-  mixins: [modal],
+  mixins: [formatPrice, modal],
   components: {
     TransitionRoot,
     TransitionChild,

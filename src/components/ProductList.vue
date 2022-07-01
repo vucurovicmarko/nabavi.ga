@@ -20,7 +20,7 @@
         {{ product.description }}
       </p>
       <p class="mt-4 text-lg font-medium text-gray-900">
-        {{ product.price }} €
+        {{ formatPrice(product.price) }}
       </p>
     </div>
     <button
@@ -51,8 +51,11 @@
 import { mapActions } from "pinia";
 import { useCartStore } from "@/stores/cart";
 
+import formatPrice from "@/mixins/formatPrice"
+
 export default {
   name: "ProductList",
+  mixins: [formatPrice],
   props: {
     product: {
       type: Object,

@@ -18,7 +18,7 @@
           </h3>
         </div>
         <p class="whitespace-nowrap ml-2 text-sm font-medium text-gray-900">
-          {{ product.price }} €
+          {{ formatPrice(product.price) }}
         </p>
       </div>
     </div>
@@ -38,8 +38,11 @@
 import {mapActions} from "pinia";
 import {useCartStore} from "@/stores/cart";
 
+import formatPrice from "@/mixins/formatPrice";
+
 export default {
   name: "ProductCard",
+  mixins: [formatPrice],
   props: {
     product: {
       type: Object,

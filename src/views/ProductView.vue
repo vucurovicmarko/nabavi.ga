@@ -25,7 +25,7 @@
                 {{ product.name }}
               </h1>
               <p class="mt-2 text-3xl text-gray-900">
-                {{ product.price }} €
+                {{ formatPrice(product.price) }}
               </p>
 
               <p v-if="product.description"
@@ -53,10 +53,13 @@ import {useCartStore} from "@/stores/cart";
 
 import ProductService from "@/services/product.service";
 
+import formatPrice from "@/mixins/formatPrice";
+
 import VBreadcrumb from "@/components/VBreadcrumb";
 
 export default {
   name: "ProductView",
+  mixins: [formatPrice],
   components: {
     VBreadcrumb,
   },
