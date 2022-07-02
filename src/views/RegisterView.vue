@@ -170,11 +170,11 @@ export default {
       const { username, password } = this.form;
       return Boolean(username && password);
     },
-    readyToSend() {
-      return this.requiredFiledsFilled && this.passwordConfirmed;
-    },
     invalidForm() {
       return this.errors.hasErrors();
+    },
+    readyToSend() {
+      return !this.invalidForm && this.requiredFiledsFilled && this.passwordConfirmed;
     },
   },
   methods: {
