@@ -1,6 +1,6 @@
 import app from "@/app";
 
-import "@/app/api";
+import "@/app/axios";
 import "@/app/plugins";
 import "@/app/components";
 import "@/app/directives";
