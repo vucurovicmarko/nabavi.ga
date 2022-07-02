@@ -14,62 +14,118 @@
           Login
         </h2>
       </div>
-      <form class="mt-8 space-y-6" action="#" method="POST">
-        <input type="hidden" name="remember" value="true" />
+
+      <form @submit.prevent="submit" class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="email-address" class="sr-only">Email address</label>
+            <label for="username" class="sr-only">Username</label>
             <input
-              id="email-address"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
+              id="username"
+              type="text"
+              autocomplete="username"
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
-              placeholder="Email address"
+              placeholder="Username"
+              v-model="form.username"
             />
           </div>
           <div>
             <label for="password" class="sr-only">Password</label>
             <input
               id="password"
-              name="password"
               type="password"
-              autocomplete="current-password"
-              required
+              autocomplete="new-password"
               class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
               placeholder="Password"
+              v-model="form.password"
             />
           </div>
         </div>
 
         <div>
-          <button
+          <VButton
             type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-          >
-            Login
-          </button>
+            label="Login"
+            class="w-full"
+            :disabled="!readyToSend"
+            :busy="sentAndWaiting"
+          ></VButton>
         </div>
       </form>
       <div class="flex justify-center">
-          <div class="text-sm">
-            <router-link
-              :to="{name: 'register'}"
-              class="font-medium text-emerald-600 hover:text-emerald-500"
-              replace
-            >
-              Don't have an account? Register
-            </router-link>
-          </div>
+        <div class="text-sm">
+          <router-link
+            :to="{ name: 'register' }"
+            class="font-medium text-emerald-600 hover:text-emerald-500"
+            replace
+          >
+            Don't have an account? Register
+          </router-link>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { useToast } from "vue-toastification";
+
+import { mapActions } from "pinia";
+import { useAuthStore } from "@/stores/auth";
+
+import AuthService from "@/services/auth.service";
+
 export default {
   name: "LoginView",
+  data() {
+    return {
+      form: {
+        username: "",
+        password: "",
+      },
+      sentAndWaiting: false,
+      loginErrorToastId: null,
+    };
+  },
+  computed: {
+    requiredFiledsFilled() {
+      const { username, password } = this.form;
+      return Boolean(username && password);
+    },
+    readyToSend() {
+      return this.requiredFiledsFilled;
+    },
+  },
+  methods: {
+    ...mapActions(useAuthStore, ["setAuth", "purgeAuth"]),
+    submit() {
+      if (!this.readyToSend) return;
+
+      this.sentAndWaiting = true;
+
+      this.purgeAuth();
+
+      AuthService.login(this.form)
+        .then(
+          ({ data }) => {
+            this.setAuth(data.access, data.refresh);
+            
+            this.$router.push({ name: "storefront" });
+          },
+          (error) => {
+            this.toast.dismiss(this.loginErrorToastId);
+            this.loginErrorToastId = this.toast.error(
+              error.response.data.detail
+            );
+          }
+        )
+        .finally(() => (this.sentAndWaiting = false));
+    },
+  },
+  setup() {
+    const toast = useToast();
+
+    return { toast };
+  },
 };
 </script>
 
