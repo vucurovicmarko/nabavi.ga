@@ -11,7 +11,7 @@
         </div>
 
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Registration
+          Register
         </h2>
       </div>
 
@@ -94,10 +94,10 @@
 </template>
 
 <script>
-import AuthService from "@/services/auth.service";
-import Errors from "@/helpers/Errors";
-
 import { useToast } from "vue-toastification";
+
+import Errors from "@/helpers/Errors";
+import AuthService from "@/services/auth.service";
 
 import ErrorList from "@/components/ErrorList";
 
@@ -144,7 +144,7 @@ export default {
         .then(
           () => {
             this.toast.success("Account has been successfully created");
-            this.$router.push({ name: "storefront" });
+            this.$router.push({ name: "login" });
           },
           (error) => {
             if (error.response.status === 400) {
