@@ -51,29 +51,12 @@
       <form @submit.prevent="submit" class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="email" class="sr-only">Email address</label>
-            <input
-              id="email"
-              type="email"
-              autocomplete="email"
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border rounded-t-md focus:outline-none focus:z-10 sm:text-sm"
-              :class="
-                errors.get('email')
-                  ? 'border-red-300 placeholder-red-500 text-red-900 focus:ring-red-500 focus:border-red-500 z-[1]'
-                  : 'border-gray-300 placeholder-gray-500 text-gray-900 focus:ring-emerald-500 focus:border-emerald-500'
-              "
-              placeholder="Email address (optional)"
-              v-model="form.email"
-              @input="errors.clear('email')"
-            />
-          </div>
-          <div>
             <label for="username" class="sr-only">Username</label>
             <input
               id="username"
               type="text"
               autocomplete="username"
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border focus:outline-none focus:z-10 sm:text-sm"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border rounded-t-md focus:outline-none focus:z-10 sm:text-sm"
               :class="
                 errors.get('username')
                   ? 'border-red-300 placeholder-red-500 text-red-900 focus:ring-red-500 focus:border-red-500 z-[1]'
@@ -153,7 +136,6 @@ export default {
   data() {
     return {
       form: {
-        email: "",
         username: "",
         password: "",
       },
