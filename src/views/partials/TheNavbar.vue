@@ -99,6 +99,10 @@
               </router-link>
             </template>
             <template v-else>
+              <span class="text-sm font-medium text-gray-200 hover:text-white">
+                {{ user.username }}
+              </span>
+              <span class="text-gray-600">|</span>
               <button
                 class="text-sm font-medium text-gray-200 hover:text-white"
                 @click="logout"
@@ -267,7 +271,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useAuthStore, ["isLoggedIn"]),
+    ...mapState(useAuthStore, ["user", "isLoggedIn"]),
     ...mapState(useCategoryStore, ["categories"]),
     ...mapState(useCartStore, ["productsCount"]),
   },
