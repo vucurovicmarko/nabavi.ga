@@ -1,15 +1,12 @@
 import router from "@/router";
 
 import { defineStore } from "pinia";
-import { useToast } from "vue-toastification";
 
 import AuthService from "@/services/auth.service";
 
 const LOCAL_STORAGE_ACCESS_TOKEN_KEY = "accessToken";
 const LOCAL_STORAGE_REFRESH_TOKEN_KEY = "refreshToken";
 const LOCAL_STORAGE_USER_KEY = "user";
-
-const toast = useToast();
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
