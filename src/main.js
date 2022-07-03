@@ -1,9 +1,10 @@
 import app from "@/app";
 
-import "@/app/axios";
+import "@/api/axios";
+
 import "@/app/plugins";
-import "@/app/components";
 import "@/app/directives";
+import "@/app/components";
 
 import "@/main.css";
 
