@@ -69,20 +69,13 @@ export const useAuthStore = defineStore("auth", {
       this.user = user;
       localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
     },
-    refreshAccessToken(refresh) {
-      // ToDo prettify
-      return AuthService.refresh({ refresh }).then(
-        ({ data }) => data.access,
-        () => ""
-      );
-    },
     setRefreshAccessTokenInterval() {
       if (!this.refreshToken) return;
 
-      // ToDo use  promise chain
-      this.refreshAccessTokenIntervalId = setInterval(async () => {
-        const accessToken = await this.refreshAccessToken(this.refreshToken);
-        this.setAccessToken(accessToken);
+      this.refreshAccessTokenIntervalId = setInterval(() => {
+        AuthService.refresh({ refresh: this.refreshToken }).then(({ data }) =>
+          this.setAccessToken(data.access)
+        );
       }, process.env.VUE_APP_ACCESS_TOKEN_LIFETIME);
     },
   },
