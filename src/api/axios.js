@@ -18,10 +18,10 @@ axios.interceptors.request.use((request) => {
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    const { isLoggedIn, logout } = useAuthStore();
+    const { isLoggedIn, purgeAuth } = useAuthStore();
 
     if ([401, 403].includes(error.response.status) && isLoggedIn) {
-      logout();
+      purgeAuth();
       router.push({ name: "login" });
     }
 

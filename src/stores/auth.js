@@ -50,12 +50,12 @@ export const useAuthStore = defineStore("auth", {
       }
     },
     logout() {
-      clearInterval(this.refreshAccessTokenIntervalId);
       this.purgeAuth();
 
       router.push({ name: "storefront" });
     },
     purgeAuth() {
+      clearInterval(this.refreshAccessTokenIntervalId);
       this.$reset();
 
       this.removeLocalStorageAccessToken();
