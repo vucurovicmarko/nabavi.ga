@@ -68,7 +68,7 @@ router.beforeEach(async (to) => {
     const {isLoggedIn} = useAuthStore();
 
     if (to.meta.requiresAuth && !isLoggedIn) {
-        return {name: 'login'};
+        return {name: 'login', query: {redirectTo: to.fullPath}};
     }
 });
 

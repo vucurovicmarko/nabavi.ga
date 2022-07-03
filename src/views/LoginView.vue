@@ -108,8 +108,10 @@ export default {
         .then(
           ({ data }) => {
             this.setAuth(data.access, data.refresh);
-            
-            this.$router.push({ name: "storefront" });
+
+            this.$router.push(
+              this.$route.query.redirectTo || { name: "storefront" }
+            );
           },
           (error) => {
             this.toast.dismiss(this.loginErrorToastId);
