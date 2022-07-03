@@ -13,7 +13,7 @@ class AuthService {
     return axios.post("jwt/create/", data);
   }
 
-  refreshAccessToken(data) {
+  refresh(data) {
     return axios.post("jwt/refresh/", data);
   }
 }

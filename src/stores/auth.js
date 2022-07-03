@@ -54,7 +54,7 @@ export const useAuthStore = defineStore("auth", {
       this.removeAuthHeader();
     },
     refreshAccessToken() {
-      AuthService.refreshAccessToken({ refresh: this.refreshToken }).then(
+      AuthService.refresh({ refresh: this.refreshToken }).then(
         ({ data }) => this.setAccessToken(data.access),
         (error) => console.log(error)
       );
