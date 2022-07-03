@@ -70,6 +70,10 @@ router.beforeEach((to) => {
     if (to.meta.requiresAuth && !isLoggedIn) {
         return {name: 'login'};
     }
+
+    if (["login", "register"].includes(to.name) && isLoggedIn) {
+        return {name: 'storefront'};
+    }
 });
 
 router.afterEach((to) => {
