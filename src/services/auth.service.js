@@ -12,6 +12,10 @@ class AuthService {
   login(data) {
     return axios.post("jwt/create/", data);
   }
+
+  refreshAccessToken(data) {
+    return axios.post("jwt/refresh/", data);
+  }
 }
 
 export default new AuthService();

@@ -2,59 +2,78 @@ import axios from "axios";
 
 import { defineStore } from "pinia";
 
+import AuthService from "@/services/auth.service";
+
 const LOCAL_STORAGE_ACCESS_TOKEN_KEY = "accessToken";
 const LOCAL_STORAGE_REFRESH_TOKEN_KEY = "refreshToken";
 
 export const useAuthStore = defineStore("auth", {
   state: () => ({
-    user: {},
     accessToken: "",
     refreshToken: "",
+    user: {},
   }),
   getters: {
-    hasAccessToken() {
+    isAuth() {
       return Boolean(this.accessToken);
     },
   },
   actions: {
     initializeAuth() {
-      this.accessToken = this.getLocalStorageAccessToken() || "";
-      this.refreshToken = this.getLocalStorageRefreshToken() || "";
+      const accessToken = this.getLocalStorageAccessToken();
+      const refreshToken = this.getLocalStorageRefreshToken();
 
-      this.setAuthHeader();
+      this.setAuth(accessToken, refreshToken);
     },
     setAuth(accessToken, refreshToken) {
+      if (!accessToken) return;
+
       this.setAccessToken(accessToken);
-      this.setRefreshToken(refreshToken);
-
-      this.setLocalStorageAccessToken(accessToken);
-      this.setLocalStorageRefreshToken(refreshToken);
-
       this.setAuthHeader();
+
+      AuthService.getUser().then(
+        ({ data }) => (this.user = data),
+        (error) => console.log(error)
+      );
+
+      if (refreshToken) {
+        this.setRefreshToken(refreshToken);
+
+        setInterval(
+          this.refreshAccessToken,
+          process.env.VUE_APP_ACCESS_TOKEN_LIFETIME
+        );
+      }
     },
     purgeAuth() {
-      this.accessToken = "";
-      this.refreshToken = "";
-      this.user = {};
+      this.$reset();
 
       this.removeLocalStorageAccessToken();
       this.removeLocalStorageRefreshToken();
 
-      this.setAuthHeader();
+      this.removeAuthHeader();
     },
-    setUser(user) {
-      this.user = user;
+    refreshAccessToken() {
+      AuthService.refreshAccessToken({ refresh: this.refreshToken }).then(
+        ({ data }) => this.setAccessToken(data.access),
+        (error) => console.log(error)
+      );
     },
     setAccessToken(accessToken) {
       this.accessToken = accessToken;
+      this.setLocalStorageAccessToken(accessToken);
     },
     setRefreshToken(refreshToken) {
       this.refreshToken = refreshToken;
+      this.setLocalStorageRefreshToken(refreshToken);
     },
     setAuthHeader() {
-      axios.defaults.headers.common["Authorization"] = this.accessToken
-        ? `JWT ${this.accessToken}`
-        : "";
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `JWT ${this.accessToken}`;
+    },
+    removeAuthHeader() {
+      axios.defaults.headers.common["Authorization"] = "";
     },
     getLocalStorageAccessToken() {
       return localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
