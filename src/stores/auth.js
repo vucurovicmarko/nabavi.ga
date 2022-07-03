@@ -11,6 +11,7 @@ export const useAuthStore = defineStore("auth", {
   state: () => ({
     accessToken: "",
     refreshToken: "",
+    refreshAccessTokenIntervalId: null,
     user: {},
   }),
   getters: {
@@ -43,11 +44,15 @@ export const useAuthStore = defineStore("auth", {
       if (refreshToken) {
         this.setRefreshToken(refreshToken);
 
-        setInterval(async () => {
+        this.refreshAccessTokenIntervalId = setInterval(async () => {
           const accessToken = await this.refreshAccessToken(this.refreshToken);
           this.setAccessToken(accessToken);
         }, process.env.VUE_APP_ACCESS_TOKEN_LIFETIME);
       }
+    },
+    logout() {
+      clearInterval(this.refreshAccessTokenIntervalId);
+      this.purgeAuth();
     },
     purgeAuth() {
       this.$reset();
