@@ -1,4 +1,3 @@
-import axios from "axios";
 import router from "@/router";
 
 import { defineStore } from "pinia";
@@ -35,7 +34,6 @@ export const useAuthStore = defineStore("auth", {
       if (!accessToken) return;
 
       this.setAccessToken(accessToken);
-      this.setAuthHeader();
 
       AuthService.getUser().then(
         ({ data }) => (this.user = data),
@@ -62,16 +60,11 @@ export const useAuthStore = defineStore("auth", {
 
       this.removeLocalStorageAccessToken();
       this.removeLocalStorageRefreshToken();
-
-      this.removeAuthHeader();
     },
     refreshAccessToken(refresh) {
       return AuthService.refresh({ refresh }).then(
         ({ data }) => data.access,
-        (error) => {
-          console.log(error);
-          return "";
-        }
+        () => ""
       );
     },
     setAccessToken(accessToken) {
@@ -81,14 +74,6 @@ export const useAuthStore = defineStore("auth", {
     setRefreshToken(refreshToken) {
       this.refreshToken = refreshToken;
       this.setLocalStorageRefreshToken(refreshToken);
-    },
-    setAuthHeader() {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `JWT ${this.accessToken}`;
-    },
-    removeAuthHeader() {
-      axios.defaults.headers.common["Authorization"] = "";
     },
     getLocalStorageAccessToken() {
       return localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);

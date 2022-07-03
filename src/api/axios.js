@@ -5,6 +5,16 @@ import { useAuthStore } from "@/stores/auth";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
+axios.interceptors.request.use((request) => {
+  const { isLoggedIn, accessToken } = useAuthStore();
+
+  request.headers.common["Authorization"] = isLoggedIn
+    ? `JWT ${accessToken}`
+    : "";
+
+  return request;
+});
+
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
