@@ -82,20 +82,34 @@
         <div
           class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto h-10 flex justify-end items-center"
         >
-          <div class="space-x-6">
-            <router-link
-              :to="{ name: 'login' }"
-              class="text-sm font-medium text-gray-200 hover:text-white"
-            >
-              Login
-            </router-link>
-            <span class="h-6 w-px bg-gray-200"></span>
-            <router-link
-              :to="{ name: 'register' }"
-              class="text-sm font-medium text-gray-200 hover:text-white"
-            >
-              Register
-            </router-link>
+          <div class="space-x-2">
+            <template v-if="!isLoggedIn">
+              <router-link
+                :to="{ name: 'login' }"
+                class="text-sm font-medium text-gray-200 hover:text-white"
+              >
+                Login
+              </router-link>
+              <span class="text-gray-600">|</span>
+              <router-link
+                :to="{ name: 'register' }"
+                class="text-sm font-medium text-gray-200 hover:text-white"
+              >
+                Register
+              </router-link>
+            </template>
+            <template v-else>
+              <span class="text-sm font-medium text-gray-200 hover:text-white">
+                {{ user.username }}
+              </span>
+              <span class="text-gray-600">|</span>
+              <button
+                class="text-sm font-medium text-gray-200 hover:text-white"
+                @click="logout"
+              >
+                Logout
+              </button>
+            </template>
           </div>
         </div>
       </div>
@@ -231,7 +245,8 @@
 </template>
 
 <script>
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 import { useCategoryStore } from "@/stores/category";
 import { useCartStore } from "@/stores/cart";
 
@@ -256,10 +271,12 @@ export default {
     };
   },
   computed: {
+    ...mapState(useAuthStore, ["user", "isLoggedIn"]),
     ...mapState(useCategoryStore, ["categories"]),
     ...mapState(useCartStore, ["productsCount"]),
   },
   methods: {
+    ...mapActions(useAuthStore, ["logout"]),
     openMobileNav() {
       this.mobileNavOpen = true;
     },

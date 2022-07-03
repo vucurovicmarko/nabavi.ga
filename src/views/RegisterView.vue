@@ -11,65 +11,159 @@
         </div>
 
         <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Registration
+          Register
         </h2>
       </div>
-      <form class="mt-8 space-y-6" action="#" method="POST">
-        <input type="hidden" name="remember" value="true" />
+
+      <ErrorList v-if="invalidForm" :errors="errors.getErrors()"></ErrorList>
+
+      <form @submit.prevent="submit" class="mt-8 space-y-6">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
-            <label for="email-address" class="sr-only">Email address</label>
+            <label for="username" class="sr-only">Username</label>
             <input
-              id="email-address"
-              name="email"
-              type="email"
-              autocomplete="email"
-              required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
-              placeholder="Email address"
+              id="username"
+              type="text"
+              autocomplete="username"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border rounded-t-md focus:outline-none focus:z-10 sm:text-sm"
+              :class="
+                errors.get('username')
+                  ? 'border-red-300 placeholder-red-500 text-red-900 focus:ring-red-500 focus:border-red-500 z-[1]'
+                  : 'border-gray-300 placeholder-gray-500 text-gray-900 focus:ring-emerald-500 focus:border-emerald-500'
+              "
+              placeholder="Username"
+              v-model="form.username"
+              @input="errors.clear('username')"
             />
           </div>
           <div>
             <label for="password" class="sr-only">Password</label>
             <input
               id="password"
-              name="password"
               type="password"
-              autocomplete="current-password"
-              required
-              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
+              autocomplete="new-password"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border focus:outline-none focus:z-10 sm:text-sm"
+              :class="
+                errors.get('password')
+                  ? 'border-red-300 placeholder-red-500 text-red-900 focus:ring-red-500 focus:border-red-500 z-[1]'
+                  : 'border-gray-300 placeholder-gray-500 text-gray-900 focus:ring-emerald-500 focus:border-emerald-500'
+              "
               placeholder="Password"
+              v-model="form.password"
+              @input="errors.clear('password')"
+            />
+          </div>
+          <div>
+            <label for="confirmPassword" class="sr-only"
+              >Confirm Password</label
+            >
+            <input
+              id="confirmPassword"
+              type="password"
+              autocomplete="new-password"
+              class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 focus:z-10 sm:text-sm"
+              placeholder="Confirm password"
+              v-model="confirmPassword"
             />
           </div>
         </div>
 
         <div>
-          <button
+          <VButton
             type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
-          >
-            Register
-          </button>
+            label="Register"
+            class="w-full"
+            :disabled="!readyToSend"
+            :busy="sentAndWaiting"
+          ></VButton>
         </div>
       </form>
       <div class="flex justify-center">
-          <div class="text-sm">
-            <router-link
-              :to="{name: 'login'}"
-              class="font-medium text-emerald-600 hover:text-emerald-500"
-              replace
-            >
-              Already have an account? Login
-            </router-link>
-          </div>
+        <div class="text-sm">
+          <router-link
+            :to="{ name: 'login' }"
+            class="font-medium text-emerald-600 hover:text-emerald-500"
+            replace
+          >
+            Already have an account? Login
+          </router-link>
         </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { useToast } from "vue-toastification";
+import { mapActions } from "pinia";
+
+import { useAuthStore } from "@/stores/auth";
+
+import Errors from "@/helpers/Errors";
+import AuthService from "@/services/auth.service";
+
+import ErrorList from "@/components/ErrorList";
+
 export default {
   name: "RegisterView",
+  components: {
+    ErrorList,
+  },
+  data() {
+    return {
+      form: {
+        username: "",
+        password: "",
+      },
+      confirmPassword: "",
+      sentAndWaiting: false,
+      errors: new Errors(),
+    };
+  },
+  computed: {
+    passwordConfirmed() {
+      return this.form.password === this.confirmPassword;
+    },
+    requiredFiledsFilled() {
+      const { username, password } = this.form;
+      return Boolean(username && password);
+    },
+    invalidForm() {
+      return this.errors.hasErrors();
+    },
+    readyToSend() {
+      return (
+        !this.invalidForm && this.requiredFiledsFilled && this.passwordConfirmed
+      );
+    },
+  },
+  methods: {
+    ...mapActions(useAuthStore, ["register"]),
+    submit() {
+      if (!this.readyToSend) return;
+
+      this.sentAndWaiting = true;
+
+      this.register(this.form)
+        .then(
+          () => {
+            this.toast.success("Account has been successfully created");
+            this.$router.push({ name: "login" });
+          },
+          (error) => {
+            if (error.response.status === 400) {
+              this.errors.set(error.response.data);
+            }
+          }
+        )
+        .finally(() => (this.sentAndWaiting = false));
+    },
+  },
+  setup() {
+    const toast = useToast();
+
+    return { toast };
+  },
 };
 </script>
 

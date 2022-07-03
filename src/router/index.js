@@ -1,6 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import StorefrontView from '@/views/StorefrontView.vue';
 
+import { useAuthStore } from '@/stores/auth';
+
 const routes = [
     {
         path: '/',
@@ -23,7 +25,7 @@ const routes = [
         path: '/checkout',
         name: 'checkout',
         component: () => import(/* webpackChunkName: "checkout" */ '@/views/CheckoutView.vue'),
-        meta: {title: 'Checkout'},
+        meta: {title: 'Checkout', requiresAuth: true},
     },
     {
         path: '/products',
@@ -50,7 +52,7 @@ const routes = [
         path: '/:pathMatch(.*)*',
         name: 'not_found',
         component: () => import(/* webpackChunkName: 'notFound' */ '@/views/404View'),
-        meta: {title: '404'},
+        meta: {title: '404', layout: 'auth'},
     }
 ];
 
@@ -60,6 +62,18 @@ const router = createRouter({
     },
     history: createWebHistory(process.env.BASE_URL),
     routes
+});
+
+router.beforeEach((to) => {
+    const {isLoggedIn} = useAuthStore();
+
+    if (to.meta.requiresAuth && !isLoggedIn) {
+        return {name: 'login'};
+    }
+
+    if (["login", "register"].includes(to.name) && isLoggedIn) {
+        return {name: 'storefront'};
+    }
 });
 
 router.afterEach((to) => {
