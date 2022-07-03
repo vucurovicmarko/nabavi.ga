@@ -95,6 +95,9 @@
 
 <script>
 import { useToast } from "vue-toastification";
+import { mapActions } from "pinia";
+
+import { useAuthStore } from "@/stores/auth";
 
 import Errors from "@/helpers/Errors";
 import AuthService from "@/services/auth.service";
@@ -135,12 +138,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions(useAuthStore, ["register"]),
     submit() {
       if (!this.readyToSend) return;
 
       this.sentAndWaiting = true;
 
-      AuthService.register(this.form)
+      this.register(this.form)
         .then(
           () => {
             this.toast.success("Account has been successfully created");

@@ -44,6 +44,14 @@ export const useAuthStore = defineStore("auth", {
         (error) => Promise.reject(error)
       );
     },
+    register(data) {
+      this.purgeAuth();
+
+      return AuthService.register(data).then(
+        (data) => data,
+        (error) => Promise.reject(error)
+      );
+    },
     logout() {
       this.purgeAuth();
 
