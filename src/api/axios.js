@@ -12,7 +12,7 @@ axios.interceptors.request.use((request) => {
     ? `JWT ${accessToken}`
     : "";
 
-  return request;
+  return Promise.resolve(request);
 });
 
 axios.interceptors.response.use(

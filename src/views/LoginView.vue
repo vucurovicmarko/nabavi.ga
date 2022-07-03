@@ -72,8 +72,6 @@ import { useToast } from "vue-toastification";
 import { mapActions } from "pinia";
 import { useAuthStore } from "@/stores/auth";
 
-import AuthService from "@/services/auth.service";
-
 export default {
   name: "LoginView",
   data() {
@@ -96,19 +94,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useAuthStore, ["setAuth", "purgeAuth"]),
+    ...mapActions(useAuthStore, ["login"]),
     submit() {
       if (!this.readyToSend) return;
 
       this.sentAndWaiting = true;
-
-      this.purgeAuth();
-
-      AuthService.login(this.form)
+      
+      this.login(this.form)
         .then(
-          ({ data }) => {
-            this.setAuth(data.access, data.refresh);
-
+          () => {
             this.$router.push(
               this.$route.query.redirectTo || { name: "storefront" }
             );
