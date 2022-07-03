@@ -1,4 +1,5 @@
 import axios from "axios";
+import router from "@/router";
 
 import { defineStore } from "pinia";
 
@@ -15,7 +16,7 @@ export const useAuthStore = defineStore("auth", {
     user: {},
   }),
   getters: {
-    isAuth() {
+    isLoggedIn() {
       return Boolean(this.accessToken);
     },
   },
@@ -53,6 +54,8 @@ export const useAuthStore = defineStore("auth", {
     logout() {
       clearInterval(this.refreshAccessTokenIntervalId);
       this.purgeAuth();
+
+      router.push({ name: "storefront" });
     },
     purgeAuth() {
       this.$reset();
