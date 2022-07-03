@@ -19,9 +19,13 @@ export const useAuthStore = defineStore("auth", {
     },
   },
   actions: {
-    initializeAuth() {
-      const accessToken = this.getLocalStorageAccessToken();
+    async initializeAuth() {
+      let accessToken = this.getLocalStorageAccessToken();
       const refreshToken = this.getLocalStorageRefreshToken();
+
+      if (!accessToken && refreshToken) {
+        accessToken = await this.refreshAccessToken(refreshToken);
+      }
 
       this.setAuth(accessToken, refreshToken);
     },
@@ -39,10 +43,10 @@ export const useAuthStore = defineStore("auth", {
       if (refreshToken) {
         this.setRefreshToken(refreshToken);
 
-        setInterval(
-          this.refreshAccessToken,
-          process.env.VUE_APP_ACCESS_TOKEN_LIFETIME
-        );
+        setInterval(async () => {
+          const accessToken = await this.refreshAccessToken(this.refreshToken);
+          this.setAccessToken(accessToken);
+        }, process.env.VUE_APP_ACCESS_TOKEN_LIFETIME);
       }
     },
     purgeAuth() {
@@ -53,10 +57,13 @@ export const useAuthStore = defineStore("auth", {
 
       this.removeAuthHeader();
     },
-    refreshAccessToken() {
-      AuthService.refresh({ refresh: this.refreshToken }).then(
-        ({ data }) => this.setAccessToken(data.access),
-        (error) => console.log(error)
+    refreshAccessToken(refresh) {
+      return AuthService.refresh({ refresh }).then(
+        ({ data }) => data.access,
+        (error) => {
+          console.log(error);
+          return "";
+        }
       );
     },
     setAccessToken(accessToken) {
