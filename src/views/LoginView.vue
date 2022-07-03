@@ -104,7 +104,7 @@ export default {
         .then(
           () => {
             this.$router.push(
-              this.$route.query.redirectTo || { name: "storefront" }
+              this.$route.redirectedFrom || { name: "storefront" }
             );
           },
           (error) => {

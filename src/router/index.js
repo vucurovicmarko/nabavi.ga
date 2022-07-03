@@ -64,11 +64,11 @@ const router = createRouter({
     routes
 });
 
-router.beforeEach(async (to) => {
+router.beforeEach((to) => {
     const {isLoggedIn} = useAuthStore();
 
     if (to.meta.requiresAuth && !isLoggedIn) {
-        return {name: 'login', query: {redirectTo: to.fullPath}};
+        return {name: 'login'};
     }
 });
 
